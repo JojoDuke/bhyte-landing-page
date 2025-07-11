@@ -1,6 +1,6 @@
 # Bhyte Landing Page
 
-The new official site for Bhyte Software
+The new official site for Bhyte Software LLC
 
 ## Built With
 
