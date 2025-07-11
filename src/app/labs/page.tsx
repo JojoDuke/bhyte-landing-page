@@ -8,7 +8,7 @@ export default function Labs() {
         </p>
         <p className="text-gray-400 mb-6">
           Our research laboratory is where breakthrough AI technologies are born. Here, we push the boundaries 
-          of what's possible with artificial intelligence, conducting experiments that shape the future of 
+          of what`&apos;`s possible with artificial intelligence, conducting experiments that shape the future of 
           software development.
         </p>
         <div className="bg-gray-900 p-6 rounded-lg">
