@@ -15,7 +15,7 @@ export default function Navbar() {
   
   const activeItem = getActiveItem();
   return (
-    <nav className="bg-black border-b border-gray-800">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-black border-b border-gray-800">
       <div className="flex items-center h-16">
         {/* Logo - Far Left */}
         <Link href="/" className="text-white font-bold text-lg pl-4">

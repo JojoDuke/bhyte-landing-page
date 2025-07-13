@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://api.fontshare.com/v2/css?f[]=ranade@400&display=swap');
 
 :root {
   --background: #ffffff;
@@ -27,4 +28,19 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Ranade', sans-serif;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
 }
