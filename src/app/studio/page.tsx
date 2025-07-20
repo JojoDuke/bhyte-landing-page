@@ -2,6 +2,14 @@
 
 import Image from 'next/image';
 import Footer from '../components/Footer';
+import Testimonials from '../components/Testimonials';
+import About from '../components/About';
+import OurServices from '../components/OurServices';
+import OurProcess from '../components/OurProcess';
+import OurWork from '../components/OurWork';
+import Pricing from '../components/Pricing';
+import FAQs from '../components/FAQs';
+import CallToAction from '../components/CallToAction';
 import React, { useRef, useEffect } from 'react';
 
 // Easy to edit: Add/remove images here
@@ -9,12 +17,18 @@ const portfolioImages: { src: string; name: string; link?: string }[] = [
   { src: '/bluespace.png', name: 'MeetingIQ', link: 'https://example.com/blue-space' },
   { src: '/bluespace.png', name: 'Midas', link: 'https://usemidas.app' },
   { src: '/bluespace.png', name: 'Papermind' },
-  { src: '/bluespace.png', name: 'Papermind' },
-  { src: '/bluespace.png', name: 'Papermind' },
-  { src: '/bluespace.png', name: 'Papermind' },
-  { src: '/bluespace.png', name: 'Papermind' },
-  { src: '/bluespace.png', name: 'Papermind' },
-  { src: '/bluespace.png', name: 'Papermind' },
+  { src: '/bluespace.png', name: 'Astrae', link: 'https://example.com/ai-art' },
+  { src: '/bluespace.png', name: 'Stakenet', link: 'https://example.com/landing' },
+  { src: '/bluespace.png', name: 'VoiceAfrica AI', link: 'https://example.com/landing' },
+  { src: '/bluespace.png', name: 'GenY Solutions' },
+  { src: '/bluespace.png', name: 'Hire1 AI' },
+  { src: '/bluespace.png', name: 'Atlas Labs' },
+  { src: '/bluespace.png', name: 'Lexos' },
+  { src: '/bluespace.png', name: 'FetchTalent' },
+  { src: '/bluespace.png', name: 'Intero' },
+  { src: '/bluespace.png', name: 'Studio IX' },
+  { src: '/bluespace.png', name: 'Neni' },
+  { src: '/bluespace.png', name: 'Philippine Careers' },
 ];
 
 export default function Studio() {
@@ -211,6 +225,15 @@ export default function Studio() {
           </div>
         </div>
       </section>
+
+      <Testimonials />
+      <About />
+      <OurServices />
+      <OurProcess />
+      <OurWork />
+      <Pricing />
+      <FAQs />
+      <CallToAction />
 
       {/* Footer Component */}
       <Footer />
