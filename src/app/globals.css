@@ -73,7 +73,6 @@ body {
 }
 
 .portfolio-carousel {
-  animation: scroll 30s linear infinite;
 }
 
 .portfolio-carousel:hover {

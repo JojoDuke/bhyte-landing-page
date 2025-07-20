@@ -1,17 +1,101 @@
+"use client";
+
 import Image from 'next/image';
 import Footer from '../components/Footer';
+import React, { useRef, useEffect } from 'react';
 
 // Easy to edit: Add/remove images here
-const portfolioImages = [
-  '/bluespace.png', // Replace with your actual work images
-  '/bluespace.png', 
-  '/bluespace.png',
-  '/bluespace.png',
-  '/bluespace.png',
-  '/bluespace.png',
+const portfolioImages: { src: string; name: string; link?: string }[] = [
+  { src: '/bluespace.png', name: 'MeetingIQ', link: 'https://example.com/blue-space' },
+  { src: '/bluespace.png', name: 'Midas', link: 'https://usemidas.app' },
+  { src: '/bluespace.png', name: 'Papermind' },
+  { src: '/bluespace.png', name: 'Papermind' },
+  { src: '/bluespace.png', name: 'Papermind' },
+  { src: '/bluespace.png', name: 'Papermind' },
+  { src: '/bluespace.png', name: 'Papermind' },
+  { src: '/bluespace.png', name: 'Papermind' },
+  { src: '/bluespace.png', name: 'Papermind' },
 ];
 
 export default function Studio() {
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    let animationFrameId: number;
+    let isMounted = true;
+
+    const calculateWidth = () => {
+      const imageElements = Array.from(carousel.children) as HTMLElement[];
+      const gap = parseFloat(window.getComputedStyle(carousel).columnGap || '0');
+      let totalWidth = 0;
+      // Calculate the width of the first set of images
+      for (let i = 0; i < portfolioImages.length; i++) {
+        if (imageElements[i]) {
+          totalWidth += imageElements[i].offsetWidth + gap;
+        }
+      }
+      return totalWidth;
+    };
+
+    let totalWidthOfOneSet = calculateWidth();
+    let currentTranslate = 0;
+    // You can change the speed here (pixels per second)
+    const speed = 150;
+
+    let lastTimestamp: number | null = null;
+
+    const animateScroll = (timestamp: number) => {
+      if (!isMounted) return;
+      if (!lastTimestamp) {
+        lastTimestamp = timestamp;
+      }
+
+      const deltaTime = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+
+      currentTranslate -= (speed * deltaTime) / 1000;
+
+      // Seamless loop logic
+      if (currentTranslate <= -totalWidthOfOneSet) {
+        currentTranslate += totalWidthOfOneSet;
+      }
+
+      carousel.style.transform = `translateX(${currentTranslate}px)`;
+      animationFrameId = requestAnimationFrame(animateScroll);
+    };
+
+    const startAnimation = () => {
+      if (!isMounted) return;
+      lastTimestamp = null; // Reset timestamp
+      animationFrameId = requestAnimationFrame(animateScroll);
+    };
+
+    const stopAnimation = () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+
+    const handleResize = () => {
+      totalWidthOfOneSet = calculateWidth();
+    };
+
+    window.addEventListener('resize', handleResize);
+    carousel.addEventListener('mouseenter', stopAnimation);
+    carousel.addEventListener('mouseleave', startAnimation);
+
+    startAnimation();
+
+    return () => {
+      isMounted = false;
+      stopAnimation();
+      window.removeEventListener('resize', handleResize);
+      carousel.removeEventListener('mouseenter', stopAnimation);
+      carousel.removeEventListener('mouseleave', startAnimation);
+    };
+  }, [portfolioImages.length]);
+
   return (
     <>
       {/* Hero Section */}
@@ -54,31 +138,76 @@ export default function Studio() {
 
       {/* Portfolio Carousel Section */}
       <section className="bg-black py-20">
-        {/* Continuously moving carousel */}
+        {/* Seamless infinite carousel */}
         <div className="w-full overflow-hidden">
-          <div className="portfolio-carousel flex gap-8">
-            {/* First set of images */}
-            {portfolioImages.map((image, index) => (
-              <div key={`first-${index}`} className="flex-shrink-0 w-[600px] h-96 relative rounded-lg overflow-hidden">
-                <Image
-                  src={image}
-                  alt={`Portfolio work ${index + 1}`}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-            ))}
-            {/* Duplicate set for seamless loop */}
-            {portfolioImages.map((image, index) => (
-              <div key={`second-${index}`} className="flex-shrink-0 w-[600px] h-96 relative rounded-lg overflow-hidden">
-                <Image
-                  src={image}
-                  alt={`Portfolio work ${index + 1}`}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-            ))}
+          <div
+            className="portfolio-carousel flex gap-8 min-w-max"
+            ref={carouselRef}
+            style={{ willChange: 'transform' }}
+          >
+            {portfolioImages.map((item, index) => {
+              const content = (
+                <div
+                  className="flex-shrink-0 w-[600px] h-96 relative rounded-lg overflow-hidden group cursor-pointer"
+                >
+                  <Image
+                    src={item.src}
+                    alt={`Portfolio work ${index + 1}`}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                  {/* Name tag */}
+                  <div className="absolute bottom-4 left-4 bg-black/70 text-white text-sm px-3 py-1 rounded-lg shadow-md group-hover:bg-blue-600 transition-colors duration-300">
+                    {item.name}
+                  </div>
+                </div>
+              );
+              return item.link ? (
+                <a
+                  key={index}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div key={index}>{content}</div>
+              );
+            })}
+            {/* Clone the images for seamless looping */}
+            {portfolioImages.map((item, index) => {
+              const content = (
+                <div
+                  className="flex-shrink-0 w-[600px] h-96 relative rounded-lg overflow-hidden group cursor-pointer"
+                >
+                  <Image
+                    src={item.src}
+                    alt={`Portfolio work clone ${index + 1}`}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                  {/* Name tag */}
+                  <div className="absolute bottom-4 left-4 bg-black/70 text-white text-sm px-3 py-1 rounded-lg shadow-md group-hover:bg-blue-600 transition-colors duration-300">
+                    {item.name}
+                  </div>
+                </div>
+              );
+              return item.link ? (
+                <a
+                  key={`clone-${index}`}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div key={`clone-${index}`}>{content}</div>
+              );
+            })}
           </div>
         </div>
       </section>
