@@ -22,13 +22,11 @@ const portfolioImages: { src: string; name: string; link?: string }[] = [
   { src: '/bluespace.png', name: 'VoiceAfrica AI', link: 'https://example.com/landing' },
   { src: '/bluespace.png', name: 'GenY Solutions' },
   { src: '/bluespace.png', name: 'Hire1 AI' },
-  { src: '/bluespace.png', name: 'Atlas Labs' },
-  { src: '/bluespace.png', name: 'Lexos' },
-  { src: '/bluespace.png', name: 'FetchTalent' },
-  { src: '/bluespace.png', name: 'Intero' },
-  { src: '/bluespace.png', name: 'Studio IX' },
-  { src: '/bluespace.png', name: 'Neni' },
-  { src: '/bluespace.png', name: 'Philippine Careers' },
+  { src: '/bluespace.png', name: 'Atlas Labs', link: 'https://builtwithatlas.com/' },
+  { src: '/bluespace.png', name: 'FetchTalent', link: 'https://fetchtalent.ai/' },
+  { src: '/bluespace.png', name: 'Intero', link: 'https://www.nickwemyssrealestate.com/' },
+  { src: '/bluespace.png', name: 'Studio IX', link: 'https://www.studioix.agency/'},
+  { src: '/bluespace.png', name: 'Philippine Careers', link: 'https://www.philippine.careers/' },
 ];
 
 export default function Studio() {
