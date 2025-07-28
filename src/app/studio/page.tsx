@@ -13,20 +13,19 @@ import CallToAction from '../components/CallToAction';
 import React, { useRef, useEffect } from 'react';
 
 // Easy to edit: Add/remove images here
-const portfolioImages: { src: string; name: string; link?: string }[] = [
-  { src: '/bluespace.png', name: 'MeetingIQ', link: 'https://example.com/blue-space' },
-  { src: '/bluespace.png', name: 'Midas', link: 'https://usemidas.app' },
-  { src: '/bluespace.png', name: 'Papermind' },
-  { src: '/bluespace.png', name: 'Astrae', link: 'https://example.com/ai-art' },
-  { src: '/bluespace.png', name: 'Stakenet', link: 'https://example.com/landing' },
-  { src: '/bluespace.png', name: 'VoiceAfrica AI', link: 'https://example.com/landing' },
-  { src: '/bluespace.png', name: 'GenY Solutions' },
-  { src: '/bluespace.png', name: 'Hire1 AI' },
-  { src: '/bluespace.png', name: 'Atlas Labs', link: 'https://builtwithatlas.com/' },
-  { src: '/bluespace.png', name: 'FetchTalent', link: 'https://fetchtalent.ai/' },
-  { src: '/bluespace.png', name: 'Intero', link: 'https://www.nickwemyssrealestate.com/' },
-  { src: '/bluespace.png', name: 'Studio IX', link: 'https://www.studioix.agency/'},
-  { src: '/bluespace.png', name: 'Philippine Careers', link: 'https://www.philippine.careers/' },
+const portfolioImages: { src: string; name: string; link?: string; width: string }[] = [
+  { src: '/portfolioImages/miq.png', name: 'MeetingIQ', link: 'https://www.builtwithatlas.com/meeting-iq', width: 'w-[700px]' },
+  { src: '/portfolioImages/midas.png', name: 'Midas', link: 'https://usemidas.app', width: 'w-[650px]' },
+  { src: '/portfolioImages/papermind.png', name: 'Papermind', link: 'https://usepapermind.com/', width: 'w-[750px]' },
+  { src: '/portfolioImages/astrae.png', name: 'Astrae', link: 'https://astrae.design', width: 'w-[680px]' },
+  { src: '/portfolioImages/stakenet.png', name: 'Stakenet', link: 'https://stakenetapp.vercel.app/', width: 'w-[720px]' },
+  { src: '/portfolioImages/voiceafrica.png', name: 'VoiceAfrica AI', link: 'https://www.voiceafrica.ai/', width: 'w-[690px]' },
+  { src: '/portfolioImages/genysolutions.png', name: 'GenY Solutions', link: 'https://genysolutions.tech/', width: 'w-[710px]' },
+  { src: '/portfolioImages/hire1.png', name: 'Hire1 AI', link: 'https://hire1-ai-roan.vercel.app/', width: 'w-[660px]' },
+  { src: '/portfolioImages/atlas.png', name: 'Atlas Labs', link: 'https://builtwithatlas.com/', width: 'w-[740px]' },
+  { src: '/portfolioImages/intero.png', name: 'Intero', link: 'https://www.nickwemyssrealestate.com/', width: 'w-[730px]' },
+  { src: '/portfolioImages/studioix.png', name: 'Studio IX', link: 'https://www.studioix.agency/', width: 'w-[670px]' },
+  { src: '/portfolioImages/philippine.png', name: 'Philippine Careers', link: 'https://www.philippine.careers/', width: 'w-[760px]' },
 ];
 
 export default function Studio() {
@@ -52,7 +51,17 @@ export default function Studio() {
       return totalWidth;
     };
 
-    let totalWidthOfOneSet = calculateWidth();
+    // Wait a moment for images to load and render before calculating width
+    const initializeCarousel = () => {
+      setTimeout(() => {
+        totalWidthOfOneSet = calculateWidth();
+        if (totalWidthOfOneSet > 0) {
+          startAnimation();
+        }
+      }, 100);
+    };
+
+    let totalWidthOfOneSet = 0;
     let currentTranslate = 0;
     // You can change the speed here (pixels per second)
     const speed = 150;
@@ -60,7 +69,7 @@ export default function Studio() {
     let lastTimestamp: number | null = null;
 
     const animateScroll = (timestamp: number) => {
-      if (!isMounted) return;
+      if (!isMounted || totalWidthOfOneSet <= 0) return;
       if (!lastTimestamp) {
         lastTimestamp = timestamp;
       }
@@ -90,14 +99,16 @@ export default function Studio() {
     };
 
     const handleResize = () => {
-      totalWidthOfOneSet = calculateWidth();
+      setTimeout(() => {
+        totalWidthOfOneSet = calculateWidth();
+      }, 100);
     };
 
     window.addEventListener('resize', handleResize);
     carousel.addEventListener('mouseenter', stopAnimation);
     carousel.addEventListener('mouseleave', startAnimation);
 
-    startAnimation();
+    initializeCarousel();
 
     return () => {
       isMounted = false;
@@ -160,7 +171,7 @@ export default function Studio() {
             {portfolioImages.map((item, index) => {
               const content = (
                 <div
-                  className="flex-shrink-0 w-[600px] h-96 relative rounded-lg overflow-hidden group cursor-pointer"
+                  className={`flex-shrink-0 ${item.width} h-[28rem] relative rounded-lg overflow-hidden group cursor-pointer`}
                 >
                   <Image
                     src={item.src}
@@ -192,7 +203,7 @@ export default function Studio() {
             {portfolioImages.map((item, index) => {
               const content = (
                 <div
-                  className="flex-shrink-0 w-[600px] h-96 relative rounded-lg overflow-hidden group cursor-pointer"
+                  className={`flex-shrink-0 ${item.width} h-[28rem] relative rounded-lg overflow-hidden group cursor-pointer`}
                 >
                   <Image
                     src={item.src}
