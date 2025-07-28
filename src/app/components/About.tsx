@@ -17,7 +17,7 @@ export default function About() {
               Founded in 2023, Bhyte Software started as a small team with a big vision. We saw a need for a software company that not only delivered exceptional products but also fostered a culture of creativity and collaboration.
             </p>
             <p className="text-gray-400">
-              Today, we've grown into a full-service studio, helping startups and enterprises alike to build the next generation of software.
+              Today, we&apos;ve grown into a full-service studio, helping startups and enterprises alike to build the next generation of software.
             </p>
           </div>
           <div>

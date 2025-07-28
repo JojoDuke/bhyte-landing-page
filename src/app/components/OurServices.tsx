@@ -7,7 +7,7 @@ export default function OurServices() {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Our Services</h2>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-            We offer a wide range of services to help you build and scale your software products. From initial concept to final launch, we've got you covered.
+            We offer a wide range of services to help you build and scale your software products. From initial concept to final launch, we&apos;ve got you covered.
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">

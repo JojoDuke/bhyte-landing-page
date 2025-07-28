@@ -7,7 +7,7 @@ export default function Testimonials() {
         <div className="grid md:grid-cols-2 gap-12">
           <div className="bg-gray-900 p-8 rounded-lg">
             <p className="text-gray-400 mb-4">
-              “Bhyte Software transformed our vision into a stunning reality. Their attention to detail and commitment to quality are unmatched. We couldn't be happier with the final product.”
+              “Bhyte Software transformed our vision into a stunning reality. Their attention to detail and commitment to quality are unmatched. We couldn&apos;t be happier with the final product.”
             </p>
             <div className="flex items-center">
               <div>

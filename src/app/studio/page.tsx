@@ -117,7 +117,7 @@ export default function Studio() {
       carousel.removeEventListener('mouseenter', stopAnimation);
       carousel.removeEventListener('mouseleave', startAnimation);
     };
-  }, [portfolioImages.length]);
+  }, []);
 
   return (
     <>

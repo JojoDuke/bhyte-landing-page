@@ -7,7 +7,7 @@ export default function FAQs() {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-            Have a question? We've got answers. If you can't find what you're looking for, feel free to contact us.
+            Have a question? We&apos;ve got answers. If you can&apos;t find what you&apos;re looking for, feel free to contact us.
           </p>
         </div>
         <div className="max-w-3xl mx-auto">

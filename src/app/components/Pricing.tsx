@@ -7,7 +7,7 @@ export default function Pricing() {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Pricing</h2>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-            We offer flexible pricing plans to suit your needs. Choose the plan that's right for you.
+            We offer flexible pricing plans to suit your needs. Choose the plan that&apos;s right for you.
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
