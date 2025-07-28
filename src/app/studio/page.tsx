@@ -10,7 +10,7 @@ import OurWork from '../components/OurWork';
 import Pricing from '../components/Pricing';
 import FAQs from '../components/FAQs';
 import CallToAction from '../components/CallToAction';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react'
 
 // Easy to edit: Add/remove images here
 const portfolioImages: { src: string; name: string; link?: string; width: string }[] = [
