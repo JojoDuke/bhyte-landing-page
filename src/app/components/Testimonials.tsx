@@ -11,7 +11,7 @@ export default function Testimonials() {
             </p>
             <div className="flex items-center">
               <div>
-                <p className="font-bold">Jane Doe</p>
+                <p className="font-bold">Jane Do</p>
                 <p className="text-sm text-gray-500">CEO, Company A</p>
               </div>
             </div>
