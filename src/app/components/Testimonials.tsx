@@ -8,7 +8,7 @@ export default function Testimonials() {
         <div className="grid md:grid-cols-2 gap-12">
           <div className="bg-gray-900 p-8 rounded-lg">
             <p className="text-gray-400 mb-6">
-              "Bhyte delivered solid work with impressive responsiveness. Their technical capabilities and quick communication made them feel like a true development partner who understood our vision."
+              &quot;Bhyte delivered solid work with impressive responsiveness. Their technical capabilities and quick communication made them feel like a true development partner who understood our vision.&quot;
             </p>
             <div className="flex items-center">
               <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
@@ -29,7 +29,7 @@ export default function Testimonials() {
           
           <div className="bg-gray-900 p-8 rounded-lg">
             <p className="text-gray-400 mb-6">
-              "Working with Bhyte Software was a fantastic experience. They are a team of young professionals who are passionate about what they do. I highly recommend them to anyone looking for a top-tier software development partner."
+              &quot;Working with Bhyte Software was a fantastic experience. They are a team of young professionals who are passionate about what they do. I highly recommend them to anyone looking for a top-tier software development partner.&quot;
             </p>
             <div className="flex items-center">
               <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
