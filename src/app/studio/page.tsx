@@ -24,7 +24,6 @@ const portfolioImages: { src: string; name: string; link?: string; width: string
   { src: '/portfolioImages/hire1.png', name: 'Hire1 AI', link: 'https://hire1-ai-roan.vercel.app/', width: 'w-[660px]' },
   { src: '/portfolioImages/atlas.png', name: 'Atlas Labs', link: 'https://builtwithatlas.com/', width: 'w-[740px]' },
   { src: '/portfolioImages/intero.png', name: 'Intero', link: 'https://www.nickwemyssrealestate.com/', width: 'w-[730px]' },
-  { src: '/portfolioImages/studioix.png', name: 'Studio IX', link: 'https://www.studioix.agency/', width: 'w-[670px]' },
   { src: '/portfolioImages/philippine.png', name: 'Philippine Careers', link: 'https://www.philippine.careers/', width: 'w-[760px]' },
 ];
 
@@ -123,25 +122,23 @@ export default function Studio() {
     <>
       {/* Hero Section */}
       <section className="min-h-screen text-white relative overflow-hidden">
-        {/* Background Image */}
-        <Image
-          src="/bluespace.png"
-          alt="Blue space background"
-          fill
-          className="object-cover -z-10"
-          priority
-        />
-        
-        {/* Floating Blue Lights */}
-        <div className="absolute inset-0 -z-5 pointer-events-none">
-          <div className="floating-light floating-light-1"></div>
-          <div className="floating-light floating-light-2"></div>
-          <div className="floating-light floating-light-3"></div>
-          <div className="floating-light floating-light-4"></div>
-          <div className="floating-light floating-light-5"></div>
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video 
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover">
+            <source 
+              src="https://cdn.midjourney.com/video/7c375435-75bd-43d0-baca-56ce40f53e8b/3.mp4" 
+              type="video/mp4" />
+          </video>
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/20"></div>
         </div>
         
-        <div className="relative z-10 pt-24 text-center animate-fadeInUp">
+        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center animate-fadeInUp">
           <h1 className="text-6xl font-bold max-w-4xl mx-auto px-4 text-transparent bg-clip-text leading-tight metallic-shimmer">
             Visually stunning AI and SaaS products built from the ground up
           </h1>
@@ -152,7 +149,7 @@ export default function Studio() {
             <button className="px-6 py-3 bg-black text-white font-medium rounded-full border border-gray-700 hover:bg-blue-500 hover:text-black hover:border-blue-500 transition-all duration-300 cursor-pointer">
               Book a Call
             </button>
-            <button className="px-6 py-3 bg-transparent text-white font-medium rounded-full border border-gray-600 hover:bg-white hover:text-black hover:border-white transition-all duration-300 cursor-pointer">
+            <button className="px-6 py-3 bg-white text-black font-medium rounded-full border border-white hover:bg-transparent hover:text-white hover:border-gray-600 transition-all duration-300 cursor-pointer">
               Learn More
             </button>
           </div>
