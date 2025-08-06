@@ -131,7 +131,7 @@ export default function Studio() {
             playsInline
             className="w-full h-full object-cover">
             <source 
-              src="https://cdn.midjourney.com/video/7c375435-75bd-43d0-baca-56ce40f53e8b/3.mp4" 
+              src="https://res.cloudinary.com/dtolochpp/video/upload/v1754060879/u9364766947_Make_it_like_this_the_shooting_stars_that_come_to_7c375435-75bd-43d0-baca-56ce40f53e8b_3undefined_wjpzzn.mp4" 
               type="video/mp4" />
           </video>
           {/* Dark overlay for better text readability */}
