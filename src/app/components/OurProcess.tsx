@@ -1,10 +1,45 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import Image from 'next/image';
 
 export default function OurProcess() {
   const [isAnimated, setIsAnimated] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const hoverSurfaceRef = useRef<HTMLDivElement>(null);
+  const rafIdRef = useRef<number | null>(null);
+  const targetPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const currentPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  
+  const animateGlow = () => {
+    const surface = hoverSurfaceRef.current;
+    if (!surface) return;
+    const lerp = 0.15; // smoothness
+    currentPosRef.current.x += (targetPosRef.current.x - currentPosRef.current.x) * lerp;
+    currentPosRef.current.y += (targetPosRef.current.y - currentPosRef.current.y) * lerp;
+    surface.style.setProperty('--x', `${currentPosRef.current.x}px`);
+    surface.style.setProperty('--y', `${currentPosRef.current.y}px`);
+    rafIdRef.current = requestAnimationFrame(animateGlow);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+    targetPosRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    if (rafIdRef.current === null) {
+      rafIdRef.current = requestAnimationFrame(animateGlow);
+    }
+  };
+
+  useEffect(() => {
+    if (hoveredCard === null && rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
+    return () => {
+      if (rafIdRef.current !== null) cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    };
+  }, [hoveredCard]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,9 +62,10 @@ export default function OurProcess() {
 
   const processSteps = [
     {
-      number: "01",
+      number: "1",
       title: "Discovery",
       description: "We start by understanding your goals, requirements, and target audience through comprehensive research and stakeholder interviews.",
+      image: "/procesessImages/mgnfyglass.png",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -38,9 +74,10 @@ export default function OurProcess() {
       color: "blue"
     },
     {
-      number: "02", 
+      number: "2", 
       title: "Design",
       description: "We create beautiful and intuitive designs that align with your brand vision using cutting-edge design principles and user experience research.",
+      image: "/procesessImages/paintandPal.png",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
@@ -49,9 +86,10 @@ export default function OurProcess() {
       color: "cyan"
     },
     {
-      number: "03",
+      number: "3",
       title: "Development", 
       description: "We build your product using the latest technologies and best practices, ensuring scalability, performance, and maintainability.",
+      image: "/procesessImages/lappy.png",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -60,9 +98,10 @@ export default function OurProcess() {
       color: "indigo"
     },
     {
-      number: "04",
+      number: "4",
       title: "Launch",
       description: "We deploy your product to production with comprehensive testing, monitoring, and provide ongoing support and maintenance.",
+      image: "/procesessImages/rocketBoom.png",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -100,6 +139,20 @@ export default function OurProcess() {
       }
     };
     return colors[color as keyof typeof colors];
+  };
+
+  const getHoverColorFor = (color: string): string => {
+    switch (color) {
+      case 'blue':
+        return 'rgba(59,130,246,0.22)';
+      case 'cyan':
+        return 'rgba(34,211,238,0.22)';
+      case 'indigo':
+        return 'rgba(99,102,241,0.22)';
+      case 'purple':
+      default:
+        return 'rgba(168,85,247,0.22)';
+    }
   };
 
   return (
@@ -233,90 +286,98 @@ export default function OurProcess() {
         ></div>
         </div>
       
-      <div className="pt-32 pb-32 relative z-10">
-        {/* Section Heading */}
-        <div className={`container mx-auto px-4 mb-20 transition-all duration-1000 ease-out ${
-          isAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
-        }`}>
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
-              Our Process
-            </h2>
-            <p className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-              A proven methodology designed to ensure transparent, collaborative, and efficient delivery. From conception to launch, we guide your project through every critical phase.
-            </p>
-          </div>
-        </div>
-
-        {/* Process Steps */}
+      <div className="py-16 relative z-10">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {processSteps.map((step, index) => {
-              const isHovered = hoveredCard === index;
-              const colorClasses = getColorClasses(step.color, isHovered);
-              
-              return (
+          <div className={`relative border border-gray-800 rounded-3xl bg-black/30 overflow-hidden shadow-2xl shadow-black/30 transition-all duration-700 max-w-3xl mx-auto ${
+            isAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+          }`}>
+            <div className="p-4 md:p-6">
+              {/* Section Heading */}
+              <div className="max-w-3xl mx-auto text-center mb-4 md:mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-1">Our Process</h2>
+                <p className="text-base md:text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto">
+                  A proven methodology designed to ensure transparent, collaborative, and efficient delivery. From conception to launch, we guide your project through every critical phase.
+                </p>
+              </div>
+
+            </div>
+            
+            {/* Central Visual - Full Width */}
+            <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] h-40 md:h-48 overflow-hidden mb-6 md:mb-8">
+              <Image
+                src="/procesessImages/nebPainting.png"
+                alt="AI Visual Process"
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority
+              />
+              {/* Fade to black at top and bottom */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent via-transparent to-black"></div>
+            </div>
+            
+            <div className="p-4 md:p-6">
+
+              {/* Process Steps (2x2 grid end-to-end, single shared hover surface) */}
+              <div
+                className="relative max-w-3xl mx-auto"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={() => setHoveredCard(null)}
+                ref={hoverSurfaceRef}
+              >
+                {/* Shared mouse-follow glow overlay */}
                 <div
-                  key={index}
-                  className={`relative group transition-all duration-500 ease-out ${
-                    isAnimated ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                  }`}
-                  style={{ transitionDelay: `${index * 150}ms` }}
-                  onMouseEnter={() => setHoveredCard(index)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                >
-                  {/* Connection Line */}
-                  {index < processSteps.length - 1 && (
-                    <div className="hidden lg:block absolute top-8 left-full w-8 h-px bg-gradient-to-r from-gray-600 to-transparent z-0"></div>
-                  )}
-                  
-                  {/* Card */}
-                  <div className={`
-                    relative border-2 rounded-2xl p-8 transition-all duration-500 cursor-pointer
-                    ${colorClasses.border} ${colorClasses.bg}
-                    ${isHovered ? `shadow-2xl ${colorClasses.glow}` : 'shadow-lg shadow-black/20'}
-                    transform ${isHovered ? 'scale-105 -translate-y-2' : 'scale-100'}
-                  `}>
-                    {/* Step Number */}
-                    <div className={`
-                      inline-flex items-center justify-center w-16 h-16 rounded-full border-2 mb-6
-                      ${colorClasses.border} ${colorClasses.bg}
-                      transition-all duration-300
-                    `}>
-                      <span className={`text-2xl font-bold ${colorClasses.accent}`}>
-                        {step.number}
-                      </span>
+                  className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-200 ${hoveredCard !== null ? 'opacity-100' : 'opacity-0'}`}
+                  style={{
+                    background: `radial-gradient(140px 100px at var(--x) var(--y), ${
+                      hoveredCard !== null ? getHoverColorFor(processSteps[hoveredCard].color) : 'rgba(0,0,0,0)'
+                    }, transparent 58%)`,
+                    filter: 'blur(12px)'
+                  }}
+                />
+                <div className="relative z-10 grid grid-cols-2 gap-0">
+                {processSteps.map((step, index) => {
+                  const isHovered = hoveredCard === index;
+                  const colorClasses = getColorClasses(step.color, isHovered);
+                  return (
+                    <div
+                      key={index}
+                      className={`p-5 md:p-6 text-center transition-colors duration-200`}
+                      onMouseEnter={() => setHoveredCard(index)}
+                      style={{ transitionDelay: `${index * 80}ms` }}
+                    >
+                      <div className="flex flex-col items-center">
+                        <div className={`flex items-center justify-center ${
+                          step.title === 'Design' 
+                            ? 'h-28 md:h-40' 
+                            : 'h-28 md:h-40'
+                        }`}>
+                          <Image
+                            src={step.image}
+                            alt={`${step.title} icon`}
+                            width={200}
+                            height={200}
+                            className={`object-contain ${
+                              step.title === 'Design' 
+                                ? 'w-20 h-20 md:w-28 md:h-28' 
+                                : 'w-28 h-28 md:w-40 md:h-40'
+                            }`}
+                          />
+                        </div>
+                        <h3 className="mt-2 text-base md:text-lg font-semibold">{step.title}</h3>
+                        <p className="mt-1.5 text-gray-300/90 text-xs md:text-sm max-w-xs mx-auto">{step.description}</p>
+                      </div>
                     </div>
-
-                    {/* Icon */}
-                    <div className={`${colorClasses.accent} mb-4 transition-transform duration-300 ${isHovered ? 'scale-110' : 'scale-100'}`}>
-                      {step.icon}
-                    </div>
-
-                    {/* Content */}
-                    <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-white transition-colors">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-300 leading-relaxed">
-                      {step.description}
-                    </p>
-
-                    {/* Hover Effect Overlay */}
-                    <div className={`
-                      absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500
-                      ${isHovered ? 'opacity-100' : 'opacity-0'}
-                    `} style={{
-                      background: `radial-gradient(circle at 50% 50%, ${step.color === 'blue' ? 'rgba(59, 130, 246, 0.05)' : 
-                        step.color === 'cyan' ? 'rgba(34, 211, 238, 0.05)' :
-                        step.color === 'indigo' ? 'rgba(99, 102, 241, 0.05)' : 'rgba(168, 85, 247, 0.05)'} 0%, transparent 70%)`
-                    }}></div>
-          </div>
-          </div>
-              );
-            })}
+                  );
+                })}
+                </div>
+              </div>
+            </div>
+            <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-white/5"></div>
           </div>
         </div>
       </div>
+      <style jsx>{``}</style>
     </section>
   );
 }

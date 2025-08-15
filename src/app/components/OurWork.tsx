@@ -121,8 +121,7 @@ export default function OurWork() {
                   <div className={`
                     relative bg-gray-900/50 border border-gray-800 rounded-2xl overflow-hidden
                     backdrop-blur-sm transition-all duration-500
-                    ${isHovered ? 'border-indigo-500/50 shadow-2xl shadow-indigo-500/20 scale-105' : 'shadow-lg shadow-black/20'}
-                    transform ${isHovered ? '-translate-y-2' : 'translate-y-0'}
+                    ${isHovered ? 'border-indigo-500/50 shadow-2xl shadow-indigo-500/20' : 'shadow-lg shadow-black/20'}
                   `}>
                     {/* Image Container */}
                     <div className="relative h-64 overflow-hidden">
@@ -130,9 +129,7 @@ export default function OurWork() {
                         src={item.src}
                         alt={item.title}
                         fill
-                        className={`object-cover transition-transform duration-700 ${
-                          isHovered ? 'scale-110' : 'scale-100'
-                        }`}
+                        className="object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       

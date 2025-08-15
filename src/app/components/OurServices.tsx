@@ -90,49 +90,65 @@ export default function OurServices() {
                 linear-gradient(to left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.3) 60%, transparent 100%), 
                 url('/servicesDivZap.png')
               `,
-              backgroundSize: 'cover, 120%',
-              backgroundPosition: 'center, 200px',
+              backgroundSize: 'cover, 150%',
+              backgroundPosition: 'center, -300px',
               backgroundRepeat: 'no-repeat, no-repeat'
             }}
           ></div>
           
           <div className="pr-12 relative z-10">
-            <h3 className="text-4xl font-bold mb-8 text-right">AI & Machine Learning</h3>
+            <h3 className="text-4xl font-bold mb-8 text-right">AI SaaS & AI Automation</h3>
             <p className="text-gray-300 text-xl leading-relaxed max-w-3xl text-right">
-              We help you leverage the power of AI and machine learning to build intelligent applications that solve real-world problems and drive innovation.
+              With tools like n8n, Gumloop, Make, Loveable, etc, we build AI powered software products and SaaS applications as well as AI automations to help you scale and save time in managing your business.
             </p>
           </div>
         </div>
         
         {/* UI/UX Design */}
         <div className="border-t border-b border-gray-800 bg-black hover:border-indigo-500 transition-colors relative overflow-hidden h-[300px] w-full flex items-center">
-          <div className="pl-12">
+          {/* Background Image positioned on the right */}
+          <div 
+            className="absolute top-0 left-0 w-full h-full"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.3) 60%, transparent 100%), 
+                url('/servicesDivStar.png')
+              `,
+              backgroundSize: 'cover, 150%',
+              backgroundPosition: 'center, -600px',
+              backgroundRepeat: 'no-repeat, no-repeat'
+            }}
+          ></div>
+          
+          <div className="pl-12 relative z-10">
             <h3 className="text-4xl font-bold mb-8">UI/UX Design</h3>
             <p className="text-gray-300 text-xl leading-relaxed max-w-3xl">
-              We create intuitive and engaging user interfaces that provide seamless user experiences across all devices and platforms.
+              Intuitive and engaging user interfaces that provide seamless user experiences across all devices and platforms.
             </p>
-          </div>
-          {/* Visual Icon */}
-          <div className="absolute bottom-6 right-6 opacity-20">
-            <svg className="w-20 h-20" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
           </div>
         </div>
         
         {/* Brand Identity and Strategy */}
         <div className="border-t border-b border-gray-800 bg-black hover:border-blue-800 transition-colors relative overflow-hidden h-[300px] w-full flex items-center justify-end">
-          <div className="pr-12">
+          {/* Background Image positioned on the left */}
+          <div 
+            className="absolute top-0 left-0 w-full h-full"
+            style={{
+              backgroundImage: `
+                linear-gradient(to left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.3) 60%, transparent 100%), 
+                url('/servicesDivFire.png')
+              `,
+              backgroundSize: 'cover, 150%',
+              backgroundPosition: 'center, -400px',
+              backgroundRepeat: 'no-repeat, no-repeat'
+            }}
+          ></div>
+          
+          <div className="pr-12 relative z-10">
             <h3 className="text-4xl font-bold mb-8 text-right">Brand Identity & Strategy</h3>
             <p className="text-gray-300 text-xl leading-relaxed max-w-3xl text-right">
               We develop compelling brand identities and strategic frameworks that resonate with your audience and drive business growth.
             </p>
-          </div>
-          {/* Visual Icon */}
-          <div className="absolute bottom-6 left-6 opacity-20">
-            <svg className="w-20 h-20" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-            </svg>
           </div>
         </div>
       </div>
