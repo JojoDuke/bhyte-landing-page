@@ -31,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="https://api.fontshare.com/v2/css?f[]=ranade@400&display=swap" rel="stylesheet" />
       </head>
       <body

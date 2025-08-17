@@ -121,7 +121,7 @@ export default function Studio() {
   return (
     <>
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen text-white relative overflow-hidden">
+      <section id="hero" className="h-screen text-white relative overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <video 
@@ -138,25 +138,38 @@ export default function Studio() {
           <div className="absolute inset-0 bg-black/20"></div>
         </div>
         
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center animate-fadeInUp">
-          <h1 className="text-6xl font-bold max-w-4xl mx-auto px-4 text-transparent bg-clip-text leading-tight metallic-shimmer">
-            Visually stunning AI and SaaS products built from the ground up
-          </h1>
-          <p className="text-xl text-gray-300 mt-6 max-w-4xl mx-auto px-4" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.5)' }}>
-            Bhyte Studio is an AI-first and design driven product studio and agency shaping the next wave of software.
-          </p>
-          <div className="mt-8 flex justify-center gap-4">
-            <a 
-              href="https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-black text-white font-medium rounded-full border border-gray-700 hover:bg-blue-500 hover:text-black hover:border-blue-500 transition-all duration-300 cursor-pointer"
-            >
-              Book a Call
-            </a>
-            <button className="px-6 py-3 bg-white text-black font-medium rounded-full border border-white hover:bg-transparent hover:text-white hover:border-gray-600 transition-all duration-300 cursor-pointer">
-              Learn More
-            </button>
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center animate-fadeInUp px-4 sm:px-6 md:px-8">
+          <div className="flex flex-col justify-center items-center h-full max-w-4xl mx-auto py-20">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-transparent bg-clip-text leading-tight metallic-shimmer mb-4 sm:mb-6">
+              Visually stunning AI and SaaS products built from the ground up
+            </h1>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-2xl lg:max-w-3xl mx-auto leading-relaxed mb-6 sm:mb-8" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.5)' }}>
+              Bhyte Studio is an AI-first and design driven product studio and agency shaping the next wave of software.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 w-full max-w-sm sm:max-w-none">
+              <a 
+                href="https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 sm:px-6 sm:py-3 bg-black text-white font-medium rounded-full border border-gray-700 hover:bg-blue-500 hover:text-black hover:border-blue-500 transition-all duration-300 cursor-pointer text-center min-h-[44px] flex items-center justify-center text-sm sm:text-base"
+              >
+                Book a Call
+              </a>
+              <button 
+                onClick={() => {
+                  const element = document.getElementById('about');
+                  if (element) {
+                    element.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'start',
+                    });
+                  }
+                }}
+                className="px-5 py-2.5 sm:px-6 sm:py-3 bg-white text-black font-medium rounded-full border border-white hover:bg-transparent hover:text-white hover:border-gray-600 transition-all duration-300 cursor-pointer min-h-[44px] flex items-center justify-center text-sm sm:text-base"
+              >
+                Learn More
+              </button>
+            </div>
           </div>
         </div>
       </section>
