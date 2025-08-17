@@ -158,7 +158,7 @@ export default function FAQs() {
           isAnimated ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`} style={{ transitionDelay: '800ms' }}>
           <p className="text-gray-400 text-lg mb-6">
-            Still have questions? We're here to help.
+            Still have questions? We&apos;re here to help.
           </p>
           <button 
             onClick={() => window.open('https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true', '_blank')}

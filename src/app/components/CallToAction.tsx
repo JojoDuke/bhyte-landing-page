@@ -141,7 +141,7 @@ export default function CallToAction() {
             
             {/* Subheading */}
             <p className="text-xl md:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed text-gray-100">
-              Let's build something extraordinary together. From AI-powered platforms to cutting-edge web applications, 
+              Let&apos;s build something extraordinary together. From AI-powered platforms to cutting-edge web applications, 
               we turn ambitious ideas into reality.
             </p>
 

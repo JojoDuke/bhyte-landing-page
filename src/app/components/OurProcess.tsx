@@ -338,7 +338,6 @@ export default function OurProcess() {
                 <div className="relative z-10 grid grid-cols-2 gap-0">
                 {processSteps.map((step, index) => {
                   const isHovered = hoveredCard === index;
-                  const colorClasses = getColorClasses(step.color, isHovered);
                   return (
                     <div
                       key={index}
