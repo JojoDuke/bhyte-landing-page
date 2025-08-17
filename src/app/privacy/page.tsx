@@ -174,8 +174,10 @@ export default function Privacy() {
         </div>
       </div>
       
-      {/* Footer Component */}
-      <Footer />
+      {/* Footer Component with spacing */}
+      <div className="mt-20">
+        <Footer />
+      </div>
     </div>
   );
 }
