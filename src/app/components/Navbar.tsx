@@ -217,7 +217,7 @@ export default function Navbar() {
                 { name: 'Labs', href: '/labs' },
                 { name: 'Intelligence', href: '/intelligence' }
               ]).map((item, index) => (
-                item.id ? (
+                'id' in item ? (
                   <button
                     key={item.id}
                     onClick={() => {
@@ -231,7 +231,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     key={index}
-                    href={item.href!}
+                    href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="block text-lg text-gray-300 hover:text-white py-3 px-4 hover:bg-gray-800 rounded-lg transition-all duration-200"
                   >
