@@ -156,7 +156,7 @@ export default function OurProcess() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-black text-white relative overflow-hidden">
+    <section id="process" ref={sectionRef} className="bg-black text-white relative overflow-hidden">
       {/* Separator Line */}
       <div className="border-t border-gray-800"></div>
       
@@ -313,7 +313,7 @@ export default function OurProcess() {
                 priority
               />
               {/* Fade to black at top and bottom */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent via-transparent to-black"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
             </div>
             
             <div className="p-4 md:p-6">

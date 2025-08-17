@@ -2,7 +2,7 @@
 
 export default function About() {
   return (
-    <section className="bg-black text-white py-20">
+    <section id="about" className="bg-black text-white py-20">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-16">

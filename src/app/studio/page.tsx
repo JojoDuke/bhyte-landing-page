@@ -121,7 +121,7 @@ export default function Studio() {
   return (
     <>
       {/* Hero Section */}
-      <section className="min-h-screen text-white relative overflow-hidden">
+      <section id="hero" className="min-h-screen text-white relative overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <video 
@@ -146,9 +146,14 @@ export default function Studio() {
             Bhyte Studio is an AI-first and design driven product studio and agency shaping the next wave of software.
           </p>
           <div className="mt-8 flex justify-center gap-4">
-            <button className="px-6 py-3 bg-black text-white font-medium rounded-full border border-gray-700 hover:bg-blue-500 hover:text-black hover:border-blue-500 transition-all duration-300 cursor-pointer">
+            <a 
+              href="https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-black text-white font-medium rounded-full border border-gray-700 hover:bg-blue-500 hover:text-black hover:border-blue-500 transition-all duration-300 cursor-pointer"
+            >
               Book a Call
-            </button>
+            </a>
             <button className="px-6 py-3 bg-white text-black font-medium rounded-full border border-white hover:bg-transparent hover:text-white hover:border-gray-600 transition-all duration-300 cursor-pointer">
               Learn More
             </button>
@@ -157,7 +162,7 @@ export default function Studio() {
       </section>
 
       {/* Portfolio Carousel Section */}
-      <section className="bg-black py-20">
+      <section id="portfolio" className="bg-black py-20">
         {/* Seamless infinite carousel */}
         <div className="w-full overflow-hidden">
           <div

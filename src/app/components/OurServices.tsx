@@ -25,7 +25,7 @@ export default function OurServices() {
   }, [isAnimated]);
 
   return (
-    <section ref={sectionRef} className="bg-black text-white relative">
+    <section id="services" ref={sectionRef} className="bg-black text-white relative">
       {/* Separator Line */}
       <div className="border-t border-gray-800"></div>
       

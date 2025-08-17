@@ -4,27 +4,27 @@ import { useEffect, useState, useRef } from "react";
 const faqData = [
   {
     question: "How long does it take to build a website?",
-    answer: "Project timelines vary based on complexity and scope. A standard web application typically takes 4-8 weeks, while advanced AI-powered platforms can take 12-16 weeks. We provide detailed project timelines during our initial consultation."
+    answer: "Project timelines vary based on complexity and scope. A standard web application typically takes 1, while advanced AI-powered platforms can take 4 to 6 weeks. We provide detailed project timelines during our initial consultation."
   },
   {
-    question: "What's included in the $1,500/month plan?",
-    answer: "Our monthly plan includes 40+ hours of development time, custom web applications, AI/ML integration, API development, responsive design, performance optimization, SEO implementation, and priority support with monthly strategy sessions."
+    question: "What's included in the $1,995/month plan?",
+    answer: "Our monthly plan includes 40+ hours of development time, custom web applications, AI/ML integration(Including LLMs, RAG, and AI workflows/automations), API development, SEO implementation, and priority support with monthly strategy sessions."
   },
   {
     question: "Do you offer support and maintenance?",
-    answer: "Yes, all our plans include comprehensive support. The Standard plan includes priority support and monthly strategy sessions, while Enterprise clients receive 24/7 monitoring and dedicated account management."
+    answer: "Yes, all our plans include comprehensive support."
   },
   {
-    question: "Can you integrate AI/ML into existing systems?",
-    answer: "Absolutely. We specialize in integrating cutting-edge AI and machine learning capabilities into existing platforms, from chatbots and recommendation engines to predictive analytics and automated workflows."
+    question: "Can you integrate AI into existing systems?",
+    answer: "Absolutely. We specialize in integrating AI and machine learning capabilities into existing platforms, from chatbots and recommendation engines to predictive analytics and automated workflows."
   },
   {
     question: "What technologies do you work with?",
-    answer: "We work with modern tech stacks including React, Node.js, Python, AI/ML frameworks, cloud platforms (AWS, Azure, GCP), blockchain technologies, and mobile development frameworks like React Native."
+    answer: "We work with modern tech stacks including React, Node.js, Bun, Hono, Python, Various AI and LLM Frameworks, cloud platforms (AWS, Azure, GCP), blockchain technologies, and mobile development frameworks like React Native."
   },
   {
     question: "How do you handle project communication?",
-    answer: "We use modern project management tools and provide regular updates through dedicated channels. You'll have direct access to your development team and receive weekly progress reports and monthly strategy sessions."
+    answer: "The most efficient and fastest way for us to communicate with clients is by various instant messaging platforms; mostly WhatsApp, Telegram, Discord or Slack, its all up to the client. We also do review/strategycalls on a regular basis"
   }
 ];
 
@@ -57,7 +57,7 @@ export default function FAQs() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-black text-white relative overflow-hidden">
+    <section id="faqs" ref={sectionRef} className="bg-black text-white relative overflow-hidden">
       
       {/* Subtle Background */}
       <div 
@@ -160,11 +160,11 @@ export default function FAQs() {
           <p className="text-gray-400 text-lg mb-6">
             Still have questions? We're here to help.
           </p>
-          <button className="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105">
-            <span>Contact Us</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+          <button 
+            onClick={() => window.open('https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true', '_blank')}
+            className="px-10 py-5 rounded-full font-semibold text-black bg-gradient-to-r from-white to-gray-100 hover:from-blue-500 hover:to-blue-600 hover:text-white transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+          >
+            Contact Us
           </button>
         </div>
       </div>

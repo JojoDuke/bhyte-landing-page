@@ -5,7 +5,7 @@ export default function CallToAction() {
   const isAnimated = true;
 
   return (
-    <section className="relative overflow-hidden">
+    <section id="contact" className="relative overflow-hidden">
       {/* Background Video/Visual Container - Ready for future content */}
       <div className="absolute inset-0 z-0">
         {/* Placeholder for future background video/visual */}
@@ -150,44 +150,31 @@ export default function CallToAction() {
               isAnimated ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
             }`} style={{ transitionDelay: '400ms' }}>
               {/* Primary CTA */}
-              <button className="group relative px-10 py-5 bg-white text-gray-900 font-bold text-lg rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl overflow-hidden">
-                {/* Button Background Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-gray-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                <span className="relative flex items-center gap-3">
-                  Book a Free Consultation
-                  <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </span>
+              <button 
+                onClick={() => window.open('https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true', '_blank')}
+                className="px-10 py-5 rounded-full font-semibold text-black bg-gradient-to-r from-white to-gray-100 hover:from-blue-500 hover:to-blue-600 hover:text-white transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+              >
+                Book a Free Consultation
               </button>
 
               {/* Secondary CTA */}
-              <button className="group relative px-10 py-5 border-2 border-white/30 text-white font-bold text-lg rounded-2xl transition-all duration-300 transform hover:scale-105 backdrop-blur-sm hover:bg-white/10 hover:border-white/50">
-                <span className="flex items-center gap-3">
-                  View Our Work
-                  <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </span>
+              <button 
+                onClick={() => {
+                  const element = document.getElementById('work');
+                  if (element) {
+                    element.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'start',
+                    });
+                  }
+                }}
+                className="px-10 py-5 rounded-full font-semibold text-white bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-gray-600 hover:border-gray-500"
+              >
+                View Our Work
               </button>
             </div>
 
-            {/* Trust Indicators */}
-            <div className={`mt-16 text-gray-200 transition-all duration-1000 ease-out ${
-              isAnimated ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`} style={{ transitionDelay: '800ms' }}>
-              <p className="text-sm uppercase tracking-wider mb-4 opacity-80">
-                Trusted by innovative companies
-              </p>
-              <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-                <span className="text-lg font-semibold">Atlas Intelligence</span>
-                <span className="text-lg font-semibold">GenySolutions</span>
-                <span className="text-lg font-semibold">Midas Financial</span>
-                <span className="text-lg font-semibold">StakeNet</span>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>

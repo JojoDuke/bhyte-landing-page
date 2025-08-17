@@ -44,6 +44,17 @@ export default function Navbar() {
     };
   }, [lastScrollY]);
 
+  // Smooth scroll function for studio sections
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
+
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 bg-black border-b border-gray-800 transition-transform duration-300 ease-in-out ${
       isVisible ? 'translate-y-0' : '-translate-y-full'
@@ -99,6 +110,32 @@ export default function Navbar() {
           </Link>
           <div className="w-px h-16 bg-gray-800"></div>
         </div>
+        
+        {/* Studio Section Navigation - Only visible on /studio page and home page */}
+        {(pathname === '/studio' || pathname === '/') && (
+          <div className="ml-auto mr-4 flex items-center gap-11">
+            {[
+              { name: 'About', id: 'about' },
+              { name: 'Services', id: 'services' },
+              { name: 'Process', id: 'process' },
+              { name: 'Work', id: 'work' },
+              { name: 'Pricing', id: 'pricing' },
+              { name: 'Contact', id: 'contact' }
+            ].map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 cursor-pointer group overflow-hidden"
+                style={{
+                  clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)'
+                }}
+              >
+                <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
+                <span className="relative z-10">{section.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </nav>
   );

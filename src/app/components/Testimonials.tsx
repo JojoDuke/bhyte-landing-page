@@ -27,6 +27,7 @@ export default function Testimonials() {
 
   return (
     <section 
+      id="testimonials"
       ref={sectionRef}
       className="bg-black text-white py-20 border-t border-b border-gray-900 relative"
     >

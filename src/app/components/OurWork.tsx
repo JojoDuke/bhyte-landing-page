@@ -1,49 +1,55 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const workItems = [
   { 
     src: '/portfolioImages/atlas.png', 
-    title: 'Atlas Intelligence', 
-    description: 'Advanced AI-powered analytics platform transforming data into actionable business insights.',
+    title: 'Atlas Labs', 
     tech: ['AI/ML', 'React', 'Python'],
-    category: 'Enterprise AI'
+    category: 'Agency',
+    url: 'https://builtwithatlas.com/'
   },
   { 
     src: '/portfolioImages/genysolutions.png', 
-    title: 'GenySolutions', 
+    title: 'Gen Y Solutions', 
     description: 'Next-generation SaaS platform streamlining complex business workflows with intelligent automation.',
     tech: ['SaaS', 'Node.js', 'Cloud'],
-    category: 'Business Platform'
+    category: 'Business Platform',
+    url: 'https://genysolutions.tech/'
   },
   { 
     src: '/portfolioImages/midas.png', 
     title: 'Midas Financial', 
     description: 'Revolutionary fintech application providing real-time market analysis and investment insights.',
     tech: ['FinTech', 'React Native', 'Blockchain'],
-    category: 'Financial Technology'
+    category: 'Financial Technology',
+    url: 'https://usemidas.app/'
   },
   { 
     src: '/portfolioImages/intero.png', 
-    title: 'Intero Systems', 
+    title: 'Intero', 
     description: 'Comprehensive IoT management platform connecting and controlling smart devices at scale.',
     tech: ['IoT', 'Vue.js', 'AWS'],
-    category: 'Smart Technology'
+    category: 'Real Estate',
+    url: 'https://www.nickwemyssrealestate.com/'
   },
   { 
     src: '/portfolioImages/papermind.png', 
-    title: 'PaperMind', 
+    title: 'Papermind AI', 
     description: 'Intelligent document processing system using OCR and ML for automated content extraction.',
     tech: ['AI/ML', 'Python', 'OCR'],
-    category: 'Document AI'
+    category: 'Document AI',
+    url: 'https://usepapermind.com/'
   },
   { 
     src: '/portfolioImages/stakenet.png', 
-    title: 'StakeNet Protocol', 
+    title: 'Stakenet', 
     description: 'Decentralized finance platform enabling secure staking and yield farming opportunities.',
     tech: ['DeFi', 'Solidity', 'Web3'],
-    category: 'Blockchain'
+    category: 'Blockchain',
+    url: 'https://stakenetapp.vercel.app/'
   }
 ];
 
@@ -51,6 +57,13 @@ export default function OurWork() {
   const [isAnimated, setIsAnimated] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const handleProjectClick = (url: string) => {
+    if (url) {
+      window.open(url, '_blank');
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -72,7 +85,7 @@ export default function OurWork() {
   }, [isAnimated]);
 
   return (
-    <section ref={sectionRef} className="bg-black text-white relative overflow-hidden">
+    <section id="work" ref={sectionRef} className="bg-black text-white relative overflow-hidden">
       
       {/* Subtle Background Gradient */}
       <div 
@@ -116,6 +129,7 @@ export default function OurWork() {
                   style={{ transitionDelay: `${index * 100}ms` }}
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
+                  onClick={() => handleProjectClick(item.url)}
                 >
                   {/* Main Card */}
                   <div className={`
@@ -163,12 +177,9 @@ export default function OurWork() {
 
                     {/* Content */}
                     <div className="p-6">
-                      <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-indigo-400 transition-colors">
+                      <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-indigo-400 transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-gray-400 leading-relaxed mb-4">
-                        {item.description}
-                      </p>
                       
                       {/* Action Arrow */}
                       <div className={`
@@ -194,6 +205,19 @@ export default function OurWork() {
                 </div>
               );
             })}
+          </div>
+          
+          {/* See More Button */}
+          <div className="text-center mt-12">
+            <button 
+              onClick={() => router.push('/studio/work')}
+              className="inline-flex items-center text-indigo-400 hover:text-indigo-300 font-medium text-lg cursor-pointer"
+            >
+              <span>See More</span>
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
