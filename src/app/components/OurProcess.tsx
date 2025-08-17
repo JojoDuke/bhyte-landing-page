@@ -111,35 +111,7 @@ export default function OurProcess() {
     }
   ];
 
-  const getColorClasses = (color: string, isHovered: boolean) => {
-    const colors = {
-      blue: {
-        border: isHovered ? 'border-blue-500' : 'border-gray-800',
-        bg: isHovered ? 'bg-blue-500/10' : 'bg-black',
-        accent: 'text-blue-400',
-        glow: 'shadow-blue-500/20'
-      },
-      cyan: {
-        border: isHovered ? 'border-cyan-500' : 'border-gray-800', 
-        bg: isHovered ? 'bg-cyan-500/10' : 'bg-black',
-        accent: 'text-cyan-400',
-        glow: 'shadow-cyan-500/20'
-      },
-      indigo: {
-        border: isHovered ? 'border-indigo-500' : 'border-gray-800',
-        bg: isHovered ? 'bg-indigo-500/10' : 'bg-black', 
-        accent: 'text-indigo-400',
-        glow: 'shadow-indigo-500/20'
-      },
-      purple: {
-        border: isHovered ? 'border-purple-500' : 'border-gray-800',
-        bg: isHovered ? 'bg-purple-500/10' : 'bg-black',
-        accent: 'text-purple-400', 
-        glow: 'shadow-purple-500/20'
-      }
-    };
-    return colors[color as keyof typeof colors];
-  };
+
 
   const getHoverColorFor = (color: string): string => {
     switch (color) {
@@ -337,7 +309,6 @@ export default function OurProcess() {
                 />
                 <div className="relative z-10 grid grid-cols-2 gap-0">
                 {processSteps.map((step, index) => {
-                  const isHovered = hoveredCard === index;
                   return (
                     <div
                       key={index}
