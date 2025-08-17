@@ -154,7 +154,7 @@ export default function Terms() {
                   <strong>TO THE MAXIMUM EXTENT PERMITTED BY LAW:</strong>
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Our services are provided "AS IS" without warranties of any kind</li>
+                  <li>Our services are provided &quot;AS IS&quot; without warranties of any kind</li>
                   <li>We disclaim all warranties, express or implied, including merchantability and fitness for purpose</li>
                   <li>We are not liable for indirect, incidental, special, or consequential damages</li>
                   <li>Our total liability shall not exceed amounts paid for services in the preceding 12 months</li>
