@@ -60,7 +60,7 @@ export default function Navbar() {
   return (
     <>
       <nav className={`fixed top-0 left-0 w-full z-50 bg-black border-b border-gray-800 transition-transform duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+        isMobileMenuOpen ? 'lg:translate-y-0 -translate-y-full' : (isVisible ? 'translate-y-0' : '-translate-y-full')
       }`}>
         <div className="flex items-center h-16">
           {/* Logo - Far Left */}
@@ -184,27 +184,30 @@ export default function Navbar() {
       </nav>
 
       {/* Hamburger Menu Button Bar - UNDER navbar with scroll behavior */}
-      <div className={`lg:hidden fixed top-16 left-0 w-full z-40 bg-black border-b border-gray-800 flex justify-center py-3 transition-transform duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+      <div className={`lg:hidden fixed left-0 w-full z-40 bg-black border-b border-gray-800 flex justify-center py-3 transition-all duration-300 ease-in-out ${
+        isMobileMenuOpen ? 'top-0' : 'top-16'
+      } ${
+        isMobileMenuOpen ? 'translate-y-0' : (isVisible ? 'translate-y-0' : '-translate-y-full')
       }`}>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="p-2 text-gray-300 hover:text-white transition-colors"
           aria-label="Toggle mobile menu"
         >
-          <div className="w-6 h-6 flex flex-col justify-center items-center">
-            <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1'}`}></span>
-            <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'mb-1'}`}></span>
-            <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+          <div className="w-6 h-6 flex flex-col justify-center items-center relative">
+            <span className={`absolute w-5 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45' : '-translate-y-1.5'}`}></span>
+            <span className={`absolute w-5 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`absolute w-5 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45' : 'translate-y-1.5'}`}></span>
           </div>
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown - UNDER navbar */}
+      {/* Mobile Menu Dropdown - Full page overlay */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-black border-t border-gray-800 shadow-2xl">
-          <div className="p-6">
-            <div className="space-y-4">
+        <div className="lg:hidden fixed top-0 left-0 w-full h-screen bg-black z-30 overflow-y-auto">
+          {/* Account for hamburger button height */}
+          <div className="pt-16 pb-6 px-6 min-h-screen">
+            <div className="space-y-6">
               {((pathname === '/studio' || pathname === '/') ? [
                 { name: 'About', id: 'about' },
                 { name: 'Services', id: 'services' },
@@ -224,7 +227,7 @@ export default function Navbar() {
                       scrollToSection(item.id);
                       setIsMobileMenuOpen(false);
                     }}
-                    className="block w-full text-left text-lg text-gray-300 hover:text-white py-3 px-4 hover:bg-gray-800 rounded-lg transition-all duration-200"
+                    className="block w-full text-left text-xl text-gray-300 hover:text-white py-4 px-6 hover:bg-gray-800 rounded-lg transition-all duration-200 border border-gray-700"
                   >
                     {item.name}
                   </button>
@@ -233,7 +236,7 @@ export default function Navbar() {
                     key={index}
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block text-lg text-gray-300 hover:text-white py-3 px-4 hover:bg-gray-800 rounded-lg transition-all duration-200"
+                    className="block text-xl text-gray-300 hover:text-white py-4 px-6 hover:bg-gray-800 rounded-lg transition-all duration-200 border border-gray-700"
                   >
                     {item.name}
                   </Link>
