@@ -205,8 +205,8 @@ export default function Navbar() {
       {/* Mobile Menu Dropdown - Full page overlay */}
       {isMobileMenuOpen && (
         <div className="lg:hidden fixed top-0 left-0 w-full h-screen bg-black z-30 overflow-y-auto">
-          {/* Account for hamburger button height */}
-          <div className="pt-16 pb-6 px-6 min-h-screen">
+          {/* Account for hamburger button height plus extra spacing */}
+          <div className="pt-24 pb-6 px-6 min-h-screen">
             <div className="space-y-6">
               {((pathname === '/studio' || pathname === '/') ? [
                 { name: 'About', id: 'about' },
