@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 const faqData = [
   {
     question: "How long does it take to build a website?",
-    answer: "Project timelines vary based on complexity and scope. A standard web application typically takes 1, while advanced AI-powered platforms can take 4 to 6 weeks. We provide detailed project timelines during our initial consultation."
+    answer: "Project timelines vary based on complexity and scope. A standard web application typically takes 3 to 4 weeks, while advanced AI-powered platforms can take 4 to 8 weeks. We provide detailed project timelines during our initial consultation."
   },
   {
     question: "What's included in the $1,995/month plan?",
