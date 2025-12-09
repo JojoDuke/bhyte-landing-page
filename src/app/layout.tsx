@@ -34,6 +34,13 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="https://api.fontshare.com/v2/css?f[]=ranade@400&display=swap" rel="stylesheet" />
+        {/* DataFast Analytics */}
+        <script
+          defer
+          data-website-id="dfid_ds3nK5yfK2H8udZvqpe5"
+          data-domain="bhytesoftware.com"
+          src="https://datafa.st/js/script.js"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
