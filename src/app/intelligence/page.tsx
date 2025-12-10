@@ -11,6 +11,9 @@ export default function Intelligence() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState('system');
 
+  // Show "Coming Soon" in production, work-in-progress in development
+  const isProduction = process.env.NODE_ENV === 'production';
+
   const sidebarItems = [
     { id: '01', label: 'SYSTEM', sectionId: 'system' },
     { id: '02', label: 'PERFORMANCE', sectionId: 'performance' },
@@ -73,6 +76,58 @@ export default function Intelligence() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  // Coming Soon Page for Production
+  if (isProduction) {
+    return (
+      <>
+        <Navbar />
+        <div className="bg-gray-900 text-white min-h-screen">
+          <div className="min-h-screen flex items-center justify-center px-4" style={{background: 'radial-gradient(circle, rgb(147, 51, 234), rgb(31, 41, 55))'}}>
+            <div className="text-center max-w-4xl mx-auto">
+              <div className="mb-8">
+                <div className="inline-block relative">
+                  <h1 className="text-7xl md:text-9xl font-bold text-white mb-4">
+                    Coming Soon
+                  </h1>
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
+                </div>
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+                Bhyte Intelligence
+              </h2>
+              
+              <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto">
+                We're building something extraordinary. An AI-powered intelligence platform that will revolutionize how businesses leverage data and insights.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a
+                  href="/studio"
+                  className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200"
+                >
+                  Explore Bhyte Studio
+                </a>
+                <a
+                  href="/labs"
+                  className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg border border-gray-700 transition-colors duration-200"
+                >
+                  Visit Bhyte Labs
+                </a>
+              </div>
+              
+              <div className="mt-16 text-gray-400">
+                <p className="text-sm">Stay tuned for updates</p>
+              </div>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      </>
+    );
+  }
+
+  // Development/Work-in-Progress Version
   return (
     <>
       <Navbar />
