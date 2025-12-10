@@ -36,10 +36,10 @@ export default function RootLayout({
         <link href="https://api.fontshare.com/v2/css?f[]=ranade@400&display=swap" rel="stylesheet" />
         {/* DataFast Analytics */}
         <Script
-          defer
           data-website-id="dfid_ds3nK5yfK2H8udZvqpe5"
-          data-domain="bhytesoftware.com"
+          data-domain="www.bhytesoftware.com"
           src="https://datafa.st/js/script.js"
+          strategy="afterInteractive"
         />
       </head>
       <body
