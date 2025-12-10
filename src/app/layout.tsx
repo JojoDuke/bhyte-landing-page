@@ -35,10 +35,10 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="https://api.fontshare.com/v2/css?f[]=ranade@400&display=swap" rel="stylesheet" />
         {/* DataFast Analytics */}
-        <script
+        <Script
           defer
           data-website-id="dfid_ds3nK5yfK2H8udZvqpe5"
-          data-domain="bhytesoftware.com/studio"
+          data-domain="bhytesoftware.com/"
           src="https://datafa.st/js/script.js"
         />
       </head>
@@ -47,7 +47,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         {/* Google Analytics */}
-        {process.env.NEXT_PUBLIC_GA_ID && (
+        {/* {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
@@ -62,7 +62,7 @@ export default function RootLayout({
               `}
             </Script>
           </>
-        )}
+        )} */}
 
         <Navbar />
         {children}
