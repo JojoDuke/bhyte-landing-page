@@ -38,7 +38,7 @@ export default function RootLayout({
         <Script
           defer
           data-website-id="dfid_ds3nK5yfK2H8udZvqpe5"
-          data-domain="bhytesoftware.com/"
+          data-domain="bhytesoftware.com"
           src="https://datafa.st/js/script.js"
         />
       </head>
