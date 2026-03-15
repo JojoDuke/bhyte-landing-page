@@ -92,30 +92,6 @@ export default function Navbar() {
               <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[16px] border-b-[16px] border-l-transparent border-b-blue-500"></div>
             </Link>
             <div className="w-px h-16 bg-gray-800"></div>
-            <Link 
-              href="/labs" 
-              className={`h-16 flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative pl-5 ${
-                activeItem === 'labs' 
-                  ? 'text-black bg-red-500 pr-[120px]' 
-                  : 'text-gray-300 hover:text-white pr-5 hover:pr-[120px]'
-              }`}
-            >
-              Labs
-              <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[16px] border-b-[16px] border-l-transparent border-b-red-500"></div>
-            </Link>
-            <div className="w-px h-16 bg-gray-800"></div>
-            <Link 
-              href="/intelligence" 
-              className={`h-16 flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative pl-5 ${
-                activeItem === 'intelligence' 
-                  ? 'text-black bg-purple-500 pr-[120px]' 
-                  : 'text-gray-300 hover:text-white pr-5 hover:pr-[120px]'
-              }`}
-            >
-              Intelligence
-              <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[16px] border-b-[16px] border-l-transparent border-b-purple-500"></div>
-            </Link>
-            <div className="w-px h-16 bg-gray-800"></div>
           </div>
 
           {/* Mobile Tabs - Left Side */}
@@ -130,26 +106,6 @@ export default function Navbar() {
                 }`}
               >
                 Studio
-              </Link>
-              <Link 
-                href="/labs"
-                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
-                  activeItem === 'labs' 
-                    ? 'bg-red-500 text-black' 
-                    : 'text-gray-300 hover:text-white hover:bg-gray-800'
-                }`}
-              >
-                Labs
-              </Link>
-              <Link 
-                href="/intelligence"
-                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
-                  activeItem === 'intelligence' 
-                    ? 'bg-purple-500 text-black' 
-                    : 'text-gray-300 hover:text-white hover:bg-gray-800'
-                }`}
-              >
-                Intelligence
               </Link>
             </div>
           </div>
@@ -216,9 +172,7 @@ export default function Navbar() {
                 { name: 'Pricing', id: 'pricing' },
                 { name: 'Contact', id: 'contact' }
               ] : [
-                { name: 'Studio', href: '/studio' },
-                { name: 'Labs', href: '/labs' },
-                { name: 'Intelligence', href: '/intelligence' }
+                { name: 'Studio', href: '/studio' }
               ]).map((item, index) => (
                 'id' in item ? (
                   <button
