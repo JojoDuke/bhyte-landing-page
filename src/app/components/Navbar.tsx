@@ -116,22 +116,33 @@ export default function Navbar() {
               {[
                 { name: 'About', id: 'about' },
                 { name: 'Services', id: 'services' },
-                { name: 'Process', id: 'process' },
                 { name: 'Work', id: 'work' },
                 { name: 'Pricing', id: 'pricing' },
+                { name: 'Blog', href: '/blog' },
                 { name: 'Contact', id: 'contact' }
               ].map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => scrollToSection(section.id)}
-                  className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 cursor-pointer group overflow-hidden"
-                  style={{
-                    clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)'
-                  }}
-                >
-                  <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
-                  <span className="relative z-10">{section.name}</span>
-                </button>
+                section.href ? (
+                  <Link
+                    key={section.href}
+                    href={section.href}
+                    className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 cursor-pointer group overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
+                    <span className="relative z-10">{section.name}</span>
+                  </Link>
+                ) : (
+                  <button
+                    key={section.id}
+                    onClick={() => scrollToSection(section.id)}
+                    className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 cursor-pointer group overflow-hidden"
+                    style={{
+                      clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)'
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
+                    <span className="relative z-10">{section.name}</span>
+                  </button>
+                )
               ))}
             </div>
           )}
@@ -167,9 +178,9 @@ export default function Navbar() {
               {((pathname === '/studio' || pathname === '/') ? [
                 { name: 'About', id: 'about' },
                 { name: 'Services', id: 'services' },
-                { name: 'Process', id: 'process' },
                 { name: 'Work', id: 'work' },
                 { name: 'Pricing', id: 'pricing' },
+                { name: 'Blog', href: '/blog' },
                 { name: 'Contact', id: 'contact' }
               ] : [
                 { name: 'Studio', href: '/studio' }
