@@ -5,7 +5,6 @@ if (typeof window !== 'undefined') {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com',
     person_profiles: 'always',
     capture_pageview: false,
-    // @ts-ignore
-    defaults: '2026-01-30'
+    ...({ defaults: '2026-01-30' } as Record<string, string>)
   })
 }

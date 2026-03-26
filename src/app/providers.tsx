@@ -22,8 +22,7 @@ if (typeof window !== 'undefined') {
       person_profiles: 'always',
       capture_pageview: false, 
       capture_pageleave: true,
-      // @ts-ignore
-      defaults: '2026-01-30' // Based on your documentation screenshot
+      ...({ defaults: '2026-01-30' } as Record<string, string>)
     })
   }
 }
