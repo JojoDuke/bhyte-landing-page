@@ -25,12 +25,17 @@ function PostHogPageview() {
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
-      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, {
-        api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-        person_profiles: 'always',
-        capture_pageview: false, // Handled manually above for better route accuracy
-        capture_pageleave: true,
-      })
+      const token = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
+      const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+
+      if (token) {
+        posthog.init(token, {
+          api_host: host || 'https://us.i.posthog.com',
+          person_profiles: 'always',
+          capture_pageview: false, // Handled manually above for better route accuracy
+          capture_pageleave: true,
+        })
+      }
     }, [])
 
     return (
