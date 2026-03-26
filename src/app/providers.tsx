@@ -28,6 +28,8 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       const token = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
       const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
 
+      console.log("PostHog initialized with token:", !!token);
+
       if (token) {
         posthog.init(token, {
           api_host: host || 'https://us.i.posthog.com',
