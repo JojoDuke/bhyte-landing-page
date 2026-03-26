@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import posthog from 'posthog-js';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -125,6 +126,7 @@ export default function Navbar() {
                   <Link
                     key={section.href}
                     href={section.href}
+                    onClick={() => posthog.capture('nav_link_clicked', { link_name: section.name, href: section.href })}
                     className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 cursor-pointer group overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
@@ -133,7 +135,10 @@ export default function Navbar() {
                 ) : (
                   <button
                     key={section.id}
-                    onClick={() => scrollToSection(section.id!)}
+                    onClick={() => {
+                      posthog.capture('nav_link_clicked', { link_name: section.name, anchor: section.id });
+                      scrollToSection(section.id!);
+                    }}
                     className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 cursor-pointer group overflow-hidden"
                     style={{
                       clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)'
@@ -189,6 +194,7 @@ export default function Navbar() {
                   <button
                     key={item.id}
                     onClick={() => {
+                      posthog.capture('nav_link_clicked_mobile', { link_name: item.name, anchor: item.id });
                       scrollToSection(item.id!);
                       setIsMobileMenuOpen(false);
                     }}
@@ -200,7 +206,10 @@ export default function Navbar() {
                   <Link
                     key={index}
                     href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => {
+                      posthog.capture('nav_link_clicked_mobile', { link_name: item.name, href: item.href });
+                      setIsMobileMenuOpen(false);
+                    }}
                     className="block text-xl text-gray-300 hover:text-white py-4 px-6 hover:bg-gray-800 rounded-lg transition-all duration-200 border border-gray-700"
                   >
                     {item.name}

@@ -11,6 +11,7 @@ import Pricing from '../components/Pricing';
 import FAQs from '../components/FAQs';
 import CallToAction from '../components/CallToAction';
 import React, { useRef, useEffect } from 'react';
+import posthog from 'posthog-js';
 
 // Easy to edit: Add/remove images here
 const portfolioImages: { src: string; name: string; link?: string; width: string }[] = [
@@ -151,12 +152,14 @@ export default function Studio() {
                 href="https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => posthog.capture('hero_book_call_clicked')}
                 className="px-5 py-2.5 sm:px-6 sm:py-3 bg-black text-white font-medium rounded-full border border-gray-700 hover:bg-blue-500 hover:text-black hover:border-blue-500 transition-all duration-300 cursor-pointer text-center min-h-[44px] flex items-center justify-center text-sm sm:text-base"
               >
                 Book a Call
               </a>
               <button 
                 onClick={() => {
+                  posthog.capture('hero_learn_more_clicked');
                   const element = document.getElementById('about');
                   if (element) {
                     element.scrollIntoView({

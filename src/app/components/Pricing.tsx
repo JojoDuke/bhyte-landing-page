@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import posthog from "posthog-js";
 
 type PricingPlan = {
   id: 'landing' | 'webmobile' | 'aiagent' | 'workflow';
@@ -225,7 +226,14 @@ export default function Pricing() {
                     {ctaButtons.map((button) => (
                       <button
                         key={button.text}
-                        onClick={() => window.open(button.url, "_blank")}
+                        onClick={() => {
+                          posthog.capture('pricing_cta_clicked', { 
+                            button_text: button.text,
+                            plan_id: plan.id,
+                            plan_name: plan.category 
+                          });
+                          window.open(button.url, "_blank");
+                        }}
                         className={`w-full py-4 px-8 rounded-full font-semibold tracking-wide transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl flex items-center justify-center ${
                           button.variant === "primary"
                             ? "text-white bg-gradient-to-r from-blue-600 to-blue-500 border border-blue-400/30 hover:from-blue-500 hover:to-cyan-500"
