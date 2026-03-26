@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 
-const pricingPlans = [
+const pricingPlans: readonly {
+  category: string;
+  title: string;
+  subtitle?: string;
+  features: readonly string[];
+}[] = [
   {
     category: "Unlimited Premium Product Development and Design",
     title: "$1599/mo",
@@ -29,7 +34,7 @@ const pricingPlans = [
       "Updates every 24-48 hours"
     ],
   }
-] as const;
+];
 
 const ctaButtons = [
   {

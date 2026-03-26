@@ -133,7 +133,7 @@ export default function Navbar() {
                 ) : (
                   <button
                     key={section.id}
-                    onClick={() => scrollToSection(section.id)}
+                    onClick={() => scrollToSection(section.id!)}
                     className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 cursor-pointer group overflow-hidden"
                     style={{
                       clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)'
@@ -189,7 +189,7 @@ export default function Navbar() {
                   <button
                     key={item.id}
                     onClick={() => {
-                      scrollToSection(item.id);
+                      scrollToSection(item.id!);
                       setIsMobileMenuOpen(false);
                     }}
                     className="block w-full text-left text-xl text-gray-300 hover:text-white py-4 px-6 hover:bg-gray-800 rounded-lg transition-all duration-200 border border-gray-700"
