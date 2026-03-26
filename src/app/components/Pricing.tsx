@@ -1,38 +1,70 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 
-const pricingPlans: readonly {
+type PricingPlan = {
+  id: 'landing' | 'webmobile' | 'aiagent' | 'workflow';
   category: string;
-  title: string;
   subtitle?: string;
+  title: string;
   features: readonly string[];
-}[] = [
+};
+
+const pricingPlans: readonly PricingPlan[] = [
   {
-    category: "Unlimited Premium Product Development and Design",
-    title: "$1599/mo",
+    id: 'landing',
+    category: 'Landing Page',
+    subtitle: 'A high-converting single-page experience for your product or brand',
+    title: '$799 one-time',
     features: [
-      "World class design in Figma",
-      "Flawless web, mobile and AI development done in record time",
-      "AI workflows/automations with n8n, Gumloop, Make, etc...",
-      "Unlimited Revisions",
-      "Up to 40 hours of dev and design work per month",
-      "Updates every 24-48 hours",
-      "Pause or cancel anytime"
-    ],
+      'Custom page design in Figma',
+      'Responsive desktop/mobile layout',
+      'SEO-friendly content structure',
+      'Analytics and lead tracking setup',
+      'Lightweight performance-first implementation',
+      '1 revision round'
+    ]
   },
   {
-    category: "Website/Branding",
-    subtitle: "if you're looking for something a little more or a little less than the standard",
-    title: "Custom Quote",
+    id: 'webmobile',
+    category: 'Web & Mobile App',
+    subtitle: 'Full app development with responsive UX and maintainable architecture',
+    title: '$3,499+ project',
     features: [
-      "Brand Identity Design",
-      "Branding/Website Design",
-      "Website Development",
-      "Simple App Development",
-      "Custom Graphics",
-      "Logos, Icons, etc...",
-      "Updates every 24-48 hours"
-    ],
+      'React/Next.js web app + React Native mobile app',
+      'Auth, database, API integration',
+      'CI/CD setup and monitoring',
+      'Design system and reusable components',
+      'Cross-device testing and QA',
+      '4 weekly demo increments'
+    ]
+  },
+  {
+    id: 'aiagent',
+    category: 'AI Agent',
+    subtitle: 'Smart automation agent with custom NLP workflows',
+    title: '$2,199+ project',
+    features: [
+      'Custom agent prompts + memory',
+      'AI assist flows using GPT-4.1/4o',
+      'Intent detection and fallback handling',
+      'Data connectors (CRM, Docs, API)',
+      'Real-time analytics dashboard',
+      'Security audit and privacy controls'
+    ]
+  },
+  {
+    id: 'workflow',
+    category: 'Workflow & Automations',
+    subtitle: 'End-to-end workflow automation for growth and efficiency',
+    title: '$1,299+ setup',
+    features: [
+      'n8n/Make/Gumloop workflow designs',
+      'Triggers, conditionals, retries, alerts',
+      'SaaS & internal system integrations',
+      'Version control and rollback support',
+      'Error handling and observability',
+      'Ongoing operations handoff'
+    ]
   }
 ];
 
@@ -51,6 +83,7 @@ const ctaButtons = [
 
 export default function Pricing() {
   const [isAnimated, setIsAnimated] = useState(false);
+  const [activePlan, setActivePlan] = useState<PricingPlan['id']>('landing');
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -92,18 +125,39 @@ export default function Pricing() {
           </div>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-0 max-w-4xl mx-auto rounded-3xl overflow-hidden border border-gray-700 bg-gradient-to-b from-gray-900/50 to-black backdrop-blur-sm">
-            {pricingPlans.map((plan, index) => (
-              <div
-                key={index}
-                className={`relative transition-all duration-700 ease-out ${
-                  isAnimated ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
-                } ${index === 0 ? "md:border-r border-gray-700" : ""} group hover:bg-gray-900/30 transition-colors duration-500`}
-                style={{ transitionDelay: `${index * 150}ms` }}
+        {/* Pricing Module Selector */}
+        <div className="container mx-auto px-4 mb-8 max-w-4xl">
+          <div className="grid grid-cols-4 gap-2 rounded-xl border border-gray-700 bg-gray-900/60 p-1">
+            {pricingPlans.map((plan) => (
+              <button
+                key={plan.id}
+                onClick={() => setActivePlan(plan.id)}
+                className={`cursor-pointer text-xs font-semibold py-2 rounded-lg transition-colors duration-300 ${
+                  activePlan === plan.id
+                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/40'
+                    : 'bg-gray-800 text-gray-300 hover:bg-blue-500/20 hover:text-white'
+                }`}
               >
-                {/* Background Gradient */}
+                {plan.category}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Pricing Card */}
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto rounded-3xl overflow-hidden border border-gray-700 bg-gradient-to-b from-gray-900/50 to-black backdrop-blur-sm">
+            {pricingPlans
+              .filter((plan) => plan.id === activePlan)
+              .map((plan, index) => (
+                <div
+                  key={plan.id}
+                  className={`relative transition-all duration-700 ease-out ${
+                    isAnimated ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
+                  } group hover:bg-gray-900/30 transition-colors duration-500`}
+                  style={{ transitionDelay: `${index * 150}ms` }}
+                >
+                  {/* Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent via-gray-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 {/* Main Card */}
