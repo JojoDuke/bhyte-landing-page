@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import url('https://api.fontshare.com/v2/css?f[]=ranade@400&display=swap');
 
 :root {
