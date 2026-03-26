@@ -6,6 +6,8 @@ type PricingPlan = {
   category: string;
   subtitle?: string;
   title: string;
+  duration?: string;
+  extraDetails?: string;
   features: readonly string[];
 };
 
@@ -15,6 +17,8 @@ const pricingPlans: readonly PricingPlan[] = [
     category: 'Landing Page',
     subtitle: 'A high-converting single-page experience for your product or brand',
     title: '$799 one-time',
+    duration: '15-20 Days',
+    extraDetails: 'Extra Pages: +$100/page',
     features: [
       'Custom page design in Figma',
       'Responsive desktop/mobile layout',
@@ -28,21 +32,21 @@ const pricingPlans: readonly PricingPlan[] = [
     id: 'webmobile',
     category: 'Web & Mobile App',
     subtitle: 'Full app development with responsive UX and maintainable architecture',
-    title: '$3,499+ project',
+    title: '$3,499 project',
+    duration: '20+ Days',
     features: [
-      'React/Next.js web app + React Native mobile app',
-      'Auth, database, API integration',
-      'CI/CD setup and monitoring',
-      'Design system and reusable components',
-      'Cross-device testing and QA',
-      '4 weekly demo increments'
+      'Desktop, Tablet, Mobile Responsive',
+      'Figma File and Codebase',
+      'No Limit to revisions',
+      'Updates every 48 hours'
     ]
   },
   {
     id: 'aiagent',
     category: 'AI Agent',
     subtitle: 'Smart automation agent with custom NLP workflows',
-    title: '$2,199+ project',
+    title: '$2,199 project',
+    duration: '15-20 Days',
     features: [
       'Custom agent prompts + memory',
       'AI assist flows using GPT-4.1/4o',
@@ -56,7 +60,8 @@ const pricingPlans: readonly PricingPlan[] = [
     id: 'workflow',
     category: 'Workflow & Automations',
     subtitle: 'End-to-end workflow automation for growth and efficiency',
-    title: '$1,299+ setup',
+    title: '$1,299 setup',
+    duration: '15-20 Days',
     features: [
       'n8n/Make/Gumloop workflow designs',
       'Triggers, conditionals, retries, alerts',
@@ -174,11 +179,27 @@ export default function Pricing() {
                     )}
                     <div className="mb-6">
                       <div className="space-y-2">
-                        <div className="flex items-baseline">
-                          <span className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                        <div className="flex items-center gap-4 flex-wrap">
+                          <span className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-relaxed pb-2">
                             {plan.title}
                           </span>
+                          {plan.duration && (
+                            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 text-gray-400 text-sm font-medium backdrop-blur-md shadow-2xl ring-1 ring-white/5 group-hover:border-white/20 group-hover:bg-white/10 group-hover:text-white transition-all duration-500">
+                              <svg className="w-4 h-4 text-blue-400/80 group-hover:text-blue-400 transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              <span className="tracking-tight">{plan.duration}</span>
+                            </div>
+                          )}
                         </div>
+                        {plan.extraDetails && (
+                          <div className="mt-4 flex items-center gap-2 text-gray-400 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                            <svg className="w-4 h-4 text-blue-400/80" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                            </svg>
+                            <span className="text-sm font-medium tracking-wide">{plan.extraDetails}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
