@@ -5,6 +5,29 @@ import { PostHogProvider as PHProvider } from 'posthog-js/react'
 import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, Suspense } from "react"
 
+// Log at the very top of the client bundle to see exactly what the bundler sees
+if (typeof window !== 'undefined') {
+  const token = process.env.NEXT_PUBLIC_POSTHOG_TOKEN || process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
+  const host = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
+
+  console.log("POSTHOG BUNDLE LOADED - ENV CHECK:", {
+    TOKEN_EXISTS: !!process.env.NEXT_PUBLIC_POSTHOG_TOKEN,
+    PROJECT_TOKEN_EXISTS: !!process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN,
+    HOST: host
+  });
+
+  if (token) {
+    posthog.init(token, {
+      api_host: host,
+      person_profiles: 'always',
+      capture_pageview: false, 
+      capture_pageleave: true,
+      // @ts-ignore
+      defaults: '2026-01-30' // Based on your documentation screenshot
+    })
+  }
+}
+
 function PostHogPageview() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -24,22 +47,6 @@ function PostHogPageview() {
 }
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
-    useEffect(() => {
-      const token = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
-      const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
-
-      console.log("PostHog initialized with token:", !!token);
-
-      if (token) {
-        posthog.init(token, {
-          api_host: host || 'https://us.i.posthog.com',
-          person_profiles: 'always',
-          capture_pageview: false, // Handled manually above for better route accuracy
-          capture_pageleave: true,
-        })
-      }
-    }, [])
-
     return (
         <PHProvider client={posthog}>
             <Suspense fallback={null}>
