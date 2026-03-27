@@ -14,11 +14,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-console.log("SERVER SIDE ENV CHECK:", {
-  TOKEN: !!process.env.NEXT_PUBLIC_POSTHOG_TOKEN,
-  PROJECT_TOKEN: !!process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN
-});
-
 export const metadata: Metadata = {
   title: "Bhyte Software - AI-native software built to scale",
   description: "AI-native software solutions designed to scale with your business needs",

@@ -1,19 +1,17 @@
-'use client'
-
+"use client"
 import posthog from 'posthog-js'
 import { PostHogProvider as PHProvider } from 'posthog-js/react'
+import { useEffect, Suspense } from 'react'
 import { usePathname, useSearchParams } from "next/navigation"
-import { useEffect, Suspense } from "react"
 
-// Log at the very top of the client bundle to see exactly what the bundler sees
+// Robust top-level initialization
 if (typeof window !== 'undefined') {
   const token = process.env.NEXT_PUBLIC_POSTHOG_TOKEN || process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
   const host = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
 
-  console.log("POSTHOG BUNDLE LOADED - ENV CHECK:", {
-    TOKEN_EXISTS: !!process.env.NEXT_PUBLIC_POSTHOG_TOKEN,
-    PROJECT_TOKEN_EXISTS: !!process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN,
-    HOST: host
+  console.log("DEBUG: PostHog Init Values", {
+    tokenFound: !!token,
+    host: host
   });
 
   if (token) {
@@ -37,7 +35,6 @@ function PostHogPageview() {
       if (searchParams.toString()) {
         url = url + "?" + searchParams.toString()
       }
-
       posthog.capture("$pageview", { $current_url: url })
     }
   }, [pathname, searchParams])
