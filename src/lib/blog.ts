@@ -4,34 +4,56 @@ import matter from 'gray-matter';
 
 const postsDirectory = path.join(process.cwd(), 'src/content/blog');
 
-export type BlogPost = {
-  slug: string;
+export type BlogPostFrontmatter = {
   title: string;
   date: string;
   description: string;
   author: string;
   subscriber?: string;
+  /** Display category for filters and cards (e.g. Product, Changelog) */
+  category?: string;
+  /** Public path under /public, e.g. /blog/covers/post.jpg */
+  coverImage?: string;
+  /** e.g. "5 min read"; optional — defaults in list helpers */
+  readTime?: string;
+};
+
+export type BlogPost = BlogPostFrontmatter & {
+  slug: string;
   content: string;
 };
 
-export function getSortedPostsData(): Omit<BlogPost, 'content'>[] {
-  // Get file names under /posts
+export type BlogPostListItem = Omit<BlogPost, 'content'>;
+
+function estimateReadTimeFromContent(markdownBody: string): string {
+  const words = markdownBody.trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `${minutes} min read`;
+}
+
+export function getSortedPostsData(): BlogPostListItem[] {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
-    // Remove ".md" from file name to get slug
     const slug = fileName.replace(/\.md$/, '');
 
-    // Read markdown file as string
     const fullPath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
-    // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
+    const data = matterResult.data as BlogPostFrontmatter;
+    const readTime =
+      data.readTime ?? estimateReadTimeFromContent(matterResult.content);
 
-    // Combine the data with the slug
     return {
       slug,
-      ...(matterResult.data as { title: string; date: string; description: string; author: string; subscriber?: string }),
+      title: data.title,
+      date: data.date,
+      description: data.description,
+      author: data.author,
+      subscriber: data.subscriber,
+      category: data.category ?? 'Insights',
+      coverImage: data.coverImage,
+      readTime,
     };
   });
 
@@ -64,9 +86,20 @@ export function getPostData(slug: string): BlogPost {
   const matterResult = matter(fileContents);
 
   // Combine the data with the slug and content
+  const data = matterResult.data as BlogPostFrontmatter;
+  const readTime =
+    data.readTime ?? estimateReadTimeFromContent(matterResult.content);
+
   return {
     slug,
     content: matterResult.content,
-    ...(matterResult.data as { title: string; date: string; description: string; author: string; subscriber?: string }),
+    title: data.title,
+    date: data.date,
+    description: data.description,
+    author: data.author,
+    subscriber: data.subscriber,
+    category: data.category ?? 'Insights',
+    coverImage: data.coverImage,
+    readTime,
   };
 }

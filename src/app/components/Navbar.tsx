@@ -15,6 +15,7 @@ export default function Navbar() {
   
   // Determine active item based on current path
   const getActiveItem = () => {
+    if (pathname?.startsWith('/blog')) return 'blog';
     if (pathname === '/labs') return 'labs';
     if (pathname === '/intelligence') return 'intelligence';
     return 'studio'; // default to studio for home page and /studio
@@ -93,6 +94,18 @@ export default function Navbar() {
               <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[16px] border-b-[16px] border-l-transparent border-b-blue-500"></div>
             </Link>
             <div className="w-px h-16 bg-gray-800"></div>
+            <Link 
+              href="/blog" 
+              className={`h-16 flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative pl-5 ${
+                activeItem === 'blog' 
+                  ? 'text-black bg-blue-500 pr-[120px]' 
+                  : 'text-gray-300 hover:text-white pr-5 hover:pr-[120px]'
+              }`}
+            >
+              Blog
+              <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[16px] border-b-[16px] border-l-transparent border-b-blue-500"></div>
+            </Link>
+            <div className="w-px h-16 bg-gray-800"></div>
           </div>
 
           {/* Mobile Tabs - Left Side */}
@@ -108,10 +121,59 @@ export default function Navbar() {
               >
                 Studio
               </Link>
+              <Link 
+                href="/blog"
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
+                  activeItem === 'blog' 
+                    ? 'bg-blue-500 text-black' 
+                    : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                }`}
+              >
+                Blog
+              </Link>
             </div>
           </div>
           
           {/* Desktop Studio Section Navigation */}
+          {pathname?.startsWith('/blog') && (
+            <div className="hidden lg:flex ml-auto mr-4 items-center gap-9">
+              <Link
+                href="/labs"
+                onClick={() => posthog.capture('nav_link_clicked', { link_name: 'Labs', href: '/labs' })}
+                className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 group overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
+                <span className="relative z-10">Labs</span>
+              </Link>
+              <Link
+                href="/intelligence"
+                onClick={() => posthog.capture('nav_link_clicked', { link_name: 'Intelligence', href: '/intelligence' })}
+                className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 group overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
+                <span className="relative z-10">Intelligence</span>
+              </Link>
+              <Link
+                href="/studio#pricing"
+                onClick={() => posthog.capture('nav_link_clicked', { link_name: 'Pricing', href: '/studio#pricing' })}
+                className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 group overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
+                <span className="relative z-10">Pricing</span>
+              </Link>
+              <a
+                href="https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => posthog.capture('nav_link_clicked', { link_name: 'Contact', href: 'cal' })}
+                className="relative px-1 py-1 text-xs text-gray-300 hover:text-black transition-all duration-200 group overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-out" style={{ clipPath: 'polygon(2px 0%, 100% 0%, calc(100% - 2px) 100%, 0% 100%)' }}></div>
+                <span className="relative z-10">Contact</span>
+              </a>
+            </div>
+          )}
+
           {(pathname === '/studio' || pathname === '/') && (
             <div className="hidden lg:flex ml-auto mr-4 items-center gap-11">
               {[
@@ -187,6 +249,12 @@ export default function Navbar() {
                 { name: 'Pricing', id: 'pricing' },
                 { name: 'Blog', href: '/blog' },
                 { name: 'Contact', id: 'contact' }
+              ] : pathname?.startsWith('/blog') ? [
+                { name: 'Studio', href: '/studio' },
+                { name: 'Labs', href: '/labs' },
+                { name: 'Intelligence', href: '/intelligence' },
+                { name: 'Pricing', href: '/studio#pricing' },
+                { name: 'Contact', href: 'https://cal.com/bhyte-lwy0r0/30min?overlayCalendar=true' },
               ] : [
                 { name: 'Studio', href: '/studio' }
               ]).map((item, index) => (
@@ -202,6 +270,20 @@ export default function Navbar() {
                   >
                     {item.name}
                   </button>
+                ) : item.href.startsWith('http') ? (
+                  <a
+                    key={index}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      posthog.capture('nav_link_clicked_mobile', { link_name: item.name, href: item.href });
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="block text-xl text-gray-300 hover:text-white py-4 px-6 hover:bg-gray-800 rounded-lg transition-all duration-200 border border-gray-700"
+                  >
+                    {item.name}
+                  </a>
                 ) : (
                   <Link
                     key={index}

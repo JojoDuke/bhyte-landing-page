@@ -4,6 +4,7 @@ date: "2026-03-26"
 subscriber: "Design, AI, Tech"
 description: "How artificial intelligence is reshaping the way we think about user experiences and product design."
 author: "Bhyte Team"
+category: "Product"
 ---
 
 Artificial Intelligence has moved beyond simple chat interfaces. Today, AI is an active partner in the design process, helping us create more personalized, efficient, and stunning products.
