@@ -94,18 +94,7 @@ export default function Navbar() {
               <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[16px] border-b-[16px] border-l-transparent border-b-blue-500"></div>
             </Link>
             <div className="w-px h-16 bg-gray-800"></div>
-            <Link 
-              href="/blog" 
-              className={`h-16 flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative pl-5 ${
-                activeItem === 'blog' 
-                  ? 'text-black bg-blue-500 pr-[120px]' 
-                  : 'text-gray-300 hover:text-white pr-5 hover:pr-[120px]'
-              }`}
-            >
-              Blog
-              <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[16px] border-b-[16px] border-l-transparent border-b-blue-500"></div>
-            </Link>
-            <div className="w-px h-16 bg-gray-800"></div>
+
           </div>
 
           {/* Mobile Tabs - Left Side */}
@@ -121,16 +110,7 @@ export default function Navbar() {
               >
                 Studio
               </Link>
-              <Link 
-                href="/blog"
-                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
-                  activeItem === 'blog' 
-                    ? 'bg-blue-500 text-black' 
-                    : 'text-gray-300 hover:text-white hover:bg-gray-800'
-                }`}
-              >
-                Blog
-              </Link>
+
             </div>
           </div>
           
