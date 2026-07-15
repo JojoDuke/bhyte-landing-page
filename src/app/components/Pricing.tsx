@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import posthog from "posthog-js";
 
 type PricingPlan = {
-  id: 'landing' | 'webmobile' | 'aiagent' | 'workflow';
+  id: 'landing' | 'webmobile' | 'aiagent';
   category: string;
   subtitle?: string;
   title: string;
@@ -44,32 +44,17 @@ const pricingPlans: readonly PricingPlan[] = [
   },
   {
     id: 'aiagent',
-    category: 'AI Agent',
-    subtitle: 'Smart automation agent with custom NLP workflows',
+    category: 'Enterprise AI Services',
+    subtitle: 'Practical AI solutions integrated into your existing business systems and workflows',
     title: '$2,199 project',
     duration: '15-20 Days',
     features: [
-      'Custom agent prompts + memory',
-      'AI assist flows using GPT-4.1/4o',
-      'Intent detection and fallback handling',
-      'Data connectors (CRM, Docs, API)',
-      'Real-time analytics dashboard',
-      'Security audit and privacy controls'
-    ]
-  },
-  {
-    id: 'workflow',
-    category: 'Workflow & Automations',
-    subtitle: 'End-to-end workflow automation for growth and efficiency',
-    title: '$1,299 setup',
-    duration: '15-20 Days',
-    features: [
-      'n8n/Make/Gumloop workflow designs',
-      'Triggers, conditionals, retries, alerts',
-      'SaaS & internal system integrations',
-      'Version control and rollback support',
-      'Error handling and observability',
-      'Ongoing operations handoff'
+      'AI strategy and use-case discovery',
+      'Integration with your CRM, documents, APIs, and internal tools',
+      'Custom AI assistants for teams and customers',
+      'Workflow design that fits how your business already operates',
+      'Secure deployment, access controls, and privacy review',
+      'Team training and handoff support'
     ]
   }
 ];
@@ -133,7 +118,7 @@ export default function Pricing() {
 
         {/* Pricing Module Selector */}
         <div className="container mx-auto px-4 mb-8 max-w-4xl">
-          <div className="grid grid-cols-4 gap-2 rounded-xl border border-gray-700 bg-gray-900/60 p-1">
+          <div className="grid grid-cols-3 gap-2 rounded-xl border border-gray-700 bg-gray-900/60 p-1">
             {pricingPlans.map((plan) => (
               <button
                 key={plan.id}
