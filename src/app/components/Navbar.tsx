@@ -12,7 +12,6 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  
   // Determine active item based on current path
   const getActiveItem = () => {
     if (pathname?.startsWith('/blog')) return 'blog';
@@ -47,6 +46,10 @@ export default function Navbar() {
       window.removeEventListener('scroll', controlNavbar);
     };
   }, [lastScrollY]);
+
+  if (pathname?.startsWith('/dashboard') || pathname === '/login' || pathname?.startsWith('/preview')) {
+    return null;
+  }
 
   // Smooth scroll function for studio sections
   const scrollToSection = (sectionId: string) => {
