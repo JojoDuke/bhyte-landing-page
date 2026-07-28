@@ -1,8 +1,9 @@
-import { auth } from "@/lib/auth/server";
+import type { NextRequest } from "next/server";
+import { getAuth } from "@/lib/auth/server";
 
-export const proxy = auth.middleware({
-  loginUrl: "/login",
-});
+export function proxy(request: NextRequest) {
+  return getAuth().middleware({ loginUrl: "/login" })(request);
+}
 
 export const config = {
   matcher: ["/dashboard/:path*"],
