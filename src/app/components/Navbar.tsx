@@ -47,7 +47,12 @@ export default function Navbar() {
     };
   }, [lastScrollY]);
 
-  if (pathname?.startsWith('/dashboard') || pathname === '/login' || pathname?.startsWith('/preview')) {
+  if (
+    pathname?.startsWith("/dashboard")
+    || pathname === "/login"
+    || pathname?.startsWith("/preview")
+    || pathname === "/documents/thank-you"
+  ) {
     return null;
   }
 

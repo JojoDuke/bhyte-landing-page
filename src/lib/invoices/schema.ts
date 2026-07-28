@@ -14,9 +14,16 @@ export const invoiceStatus = pgEnum("invoice_status", [
   "draft",
   "open",
   "paid",
+  "active",
+  "past_due",
+  "cancelled",
   "void",
   "expired",
 ]);
+
+export const invoiceType = pgEnum("invoice_type", ["one_time", "subscription"]);
+
+export const billingInterval = pgEnum("billing_interval", ["month", "year"]);
 
 export const invoices = pgTable("invoices", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -29,13 +36,20 @@ export const invoices = pgTable("invoices", {
   taxAmount: integer("tax_amount").notNull().default(0),
   discountAmount: integer("discount_amount").notNull().default(0),
   total: integer("total").notNull(),
+  issueDate: timestamp("issue_date", { withTimezone: true }).notNull(),
   dueDate: timestamp("due_date", { withTimezone: true }),
   notes: text("notes"),
+  invoiceType: invoiceType("invoice_type").notNull().default("one_time"),
+  billingInterval: billingInterval("billing_interval"),
   status: invoiceStatus("status").notNull().default("draft"),
   stripePaymentLinkId: text("stripe_payment_link_id").unique(),
   stripePaymentLinkUrl: text("stripe_payment_link_url"),
   stripeCheckoutSessionId: text("stripe_checkout_session_id").unique(),
+  stripeSubscriptionId: text("stripe_subscription_id").unique(),
   paidAt: timestamp("paid_at", { withTimezone: true }),
+  paidInvoiceEmailScheduledAt: timestamp("paid_invoice_email_scheduled_at", { withTimezone: true }),
+  paidInvoiceEmailSentAt: timestamp("paid_invoice_email_sent_at", { withTimezone: true }),
+  paidInvoiceEmailSkippedAt: timestamp("paid_invoice_email_skipped_at", { withTimezone: true }),
   createdBy: text("created_by").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
@@ -50,8 +64,21 @@ export const invoiceLineItems = pgTable("invoice_line_items", {
   position: integer("position").notNull(),
 });
 
+export const conversations = pgTable("conversations", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull().default("New chat"),
+  createdBy: text("created_by").notNull(),
+  invoiceId: uuid("invoice_id").references(() => invoices.id, { onDelete: "set null" }),
+  pendingDraft: jsonb("pending_draft"),
+  usageStats: jsonb("usage_stats"),
+  invoiceUsage: jsonb("invoice_usage"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export const invoiceMessages = pgTable("invoice_messages", {
   id: uuid("id").defaultRandom().primaryKey(),
+  conversationId: uuid("conversation_id").references(() => conversations.id, { onDelete: "cascade" }),
   invoiceId: uuid("invoice_id").references(() => invoices.id, { onDelete: "cascade" }),
   role: varchar("role", { length: 20 }).notNull(),
   content: text("content").notNull(),
@@ -78,6 +105,26 @@ export const invoicesRelations = relations(invoices, ({ many }) => ({
   invoiceLineItems: many(invoiceLineItems),
   invoiceDocuments: many(invoiceDocuments),
   invoiceMessages: many(invoiceMessages),
+  conversations: many(conversations),
+}));
+
+export const conversationsRelations = relations(conversations, ({ one, many }) => ({
+  invoice: one(invoices, {
+    fields: [conversations.invoiceId],
+    references: [invoices.id],
+  }),
+  messages: many(invoiceMessages),
+}));
+
+export const invoiceMessagesRelations = relations(invoiceMessages, ({ one }) => ({
+  conversation: one(conversations, {
+    fields: [invoiceMessages.conversationId],
+    references: [conversations.id],
+  }),
+  invoice: one(invoices, {
+    fields: [invoiceMessages.invoiceId],
+    references: [invoices.id],
+  }),
 }));
 
 export const invoiceLineItemsRelations = relations(invoiceLineItems, ({ one }) => ({

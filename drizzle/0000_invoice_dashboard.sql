@@ -11,6 +11,7 @@ CREATE TABLE "invoices" (
   "tax_amount" integer DEFAULT 0 NOT NULL,
   "discount_amount" integer DEFAULT 0 NOT NULL,
   "total" integer NOT NULL,
+  "issue_date" timestamp with time zone NOT NULL,
   "due_date" timestamp with time zone,
   "notes" text,
   "status" "invoice_status" DEFAULT 'draft' NOT NULL,

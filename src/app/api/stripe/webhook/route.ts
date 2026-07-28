@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { markInvoicePaid } from "@/lib/invoices/service";
+import { markInvoicePaid, syncSubscriptionStatus } from "@/lib/invoices/service";
 
 export const runtime = "nodejs";
 
@@ -20,10 +20,24 @@ export async function POST(request: Request) {
     );
 
     if (
-      event.type === "checkout.session.completed" ||
-      event.type === "checkout.session.async_payment_succeeded"
+      event.type === "checkout.session.completed"
+      || event.type === "checkout.session.async_payment_succeeded"
     ) {
       await markInvoicePaid(event.data.object.id, event.id, event.type, event.data.object);
+    }
+
+    if (
+      event.type === "customer.subscription.updated"
+      || event.type === "customer.subscription.deleted"
+    ) {
+      const subscription = event.data.object;
+      await syncSubscriptionStatus(
+        subscription.id,
+        subscription.status,
+        event.id,
+        event.type,
+        subscription,
+      );
     }
 
     return NextResponse.json({ received: true });

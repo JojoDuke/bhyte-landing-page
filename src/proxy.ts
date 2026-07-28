@@ -5,5 +5,5 @@ export const proxy = auth.middleware({
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/invoices/:path*"],
+  matcher: ["/dashboard/:path*"],
 };
