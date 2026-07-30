@@ -571,7 +571,7 @@ function InvoiceReview({
         <textarea
           className={`dashboard-input min-h-24 resize-none ${paymentDescriptionError ? "border-red-400/40" : ""}`}
           value={paymentDescription}
-          placeholder="Describe what this payment is for (e.g. Website redesign, monthly retainer, consulting hours)"
+          placeholder="Detailed description shown under the title on the Stripe checkout page"
           aria-invalid={Boolean(paymentDescriptionError)}
           aria-describedby={paymentDescriptionError ? "invoice-payment-description-error" : undefined}
           onChange={(event) => {
@@ -610,7 +610,7 @@ function InvoiceReview({
 
       <div className="mt-5">
         <div className="mb-2 grid grid-cols-[1fr_64px_110px] gap-2 px-1 text-[10px] uppercase tracking-wider text-zinc-600">
-          <span>Description</span><span>Qty</span><span>Rate</span>
+          <span>Title</span><span>Qty</span><span>Rate</span>
         </div>
         <div className="space-y-2">
           {draft.lineItems.map((item, index) => (

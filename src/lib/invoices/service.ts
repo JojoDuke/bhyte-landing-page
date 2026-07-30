@@ -128,8 +128,8 @@ export async function createInvoice(
             ? { recurring: { interval: draft.billingInterval } }
             : {}),
           product_data: {
-            name: paymentDescription,
-            description: buildStripeProductDescription(draft.lineItems),
+            name: buildStripeProductDescription(draft.lineItems) ?? paymentDescription,
+            description: paymentDescription || undefined,
           },
         },
       }],
