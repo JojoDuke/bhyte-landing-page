@@ -329,6 +329,13 @@ export function ClaudeChat() {
 
   async function createInvoice() {
     if (!pendingDraft || isCreating) return;
+
+    const description = pendingDraft.lineItems[0]?.description.trim() ?? "";
+    if (!description) {
+      setError("Description is required before creating the invoice.");
+      return;
+    }
+
     setIsCreating(true);
     setError(null);
 
@@ -504,7 +511,32 @@ function InvoiceReview({
   const subtotal = draft.lineItems.reduce((sum, item) => sum + item.quantity * item.unitAmount, 0);
   const total = subtotal + draft.taxAmount - draft.discountAmount;
   const isSubscription = draft.invoiceType === "subscription";
+  const primaryDescription = draft.lineItems[0]?.description ?? "";
+  const [descriptionError, setDescriptionError] = useState<string | null>(null);
   const update = (changes: Partial<InvoiceDraft>) => setDraft((current) => current ? { ...current, ...changes } : current);
+
+  function setPrimaryDescription(description: string) {
+    setDescriptionError(null);
+    const lineItems = draft.lineItems.length > 0
+      ? draft.lineItems.map((item, index) => (index === 0 ? { ...item, description } : item))
+      : [{ description, quantity: 1, unitAmount: 0 }];
+    update({ lineItems });
+  }
+
+  function handleCreate() {
+    if (!primaryDescription.trim()) {
+      setDescriptionError("Description is required.");
+      return;
+    }
+    setDescriptionError(null);
+    onCreate();
+  }
+
+  const canCreate = total > 0
+    && draft.customerName.trim().length > 0
+    && draft.customerAddress.trim().length > 0
+    && primaryDescription.trim().length > 0
+    && (!isSubscription || Boolean(draft.billingInterval));
 
   return (
     <div className="dashboard-review rounded-[22px] border border-white/[0.08] bg-white/[0.035] p-6">
@@ -548,6 +580,22 @@ function InvoiceReview({
         )}
       </div>
 
+      <ReviewField label="Description" required>
+        <textarea
+          className={`dashboard-input min-h-24 resize-none ${descriptionError ? "border-red-400/40" : ""}`}
+          value={primaryDescription}
+          placeholder="Describe what this payment is for (e.g. Website redesign, monthly retainer, consulting hours)"
+          aria-invalid={Boolean(descriptionError)}
+          aria-describedby={descriptionError ? "invoice-description-error" : undefined}
+          onChange={(event) => setPrimaryDescription(event.target.value)}
+        />
+        {descriptionError && (
+          <p id="invoice-description-error" className="mt-2 text-xs text-red-300">
+            {descriptionError}
+          </p>
+        )}
+      </ReviewField>
+
       <div className="grid gap-3 sm:grid-cols-2">
         <ReviewField label="Client legal name">
           <input className="dashboard-input" value={draft.customerName} onChange={(event) => update({ customerName: event.target.value })} />
@@ -571,32 +619,54 @@ function InvoiceReview({
       </div>
 
       <div className="mt-5">
-        <div className="mb-2 grid grid-cols-[1fr_64px_110px] gap-2 px-1 text-[10px] uppercase tracking-wider text-zinc-600">
-          <span>Description</span><span>Qty</span><span>Rate</span>
+        <div className="mb-2 grid grid-cols-[64px_110px] gap-2 px-1 text-[10px] uppercase tracking-wider text-zinc-600">
+          <span>Qty</span><span>Rate</span>
         </div>
         <div className="space-y-2">
           {draft.lineItems.map((item, index) => (
-            <div key={index} className="grid grid-cols-[1fr_64px_110px] gap-2">
-              <input
-                className="dashboard-input"
-                value={item.description}
-                onChange={(event) => update({ lineItems: draft.lineItems.map((line, itemIndex) => itemIndex === index ? { ...line, description: event.target.value } : line) })}
-              />
-              <input
-                className="dashboard-input text-center"
-                type="number"
-                min="1"
-                value={item.quantity}
-                onChange={(event) => update({ lineItems: draft.lineItems.map((line, itemIndex) => itemIndex === index ? { ...line, quantity: Number(event.target.value) } : line) })}
-              />
-              <input
-                className="dashboard-input text-right"
-                type="number"
-                min="0"
-                step="0.01"
-                value={(item.unitAmount / 100).toFixed(2)}
-                onChange={(event) => update({ lineItems: draft.lineItems.map((line, itemIndex) => itemIndex === index ? { ...line, unitAmount: Math.round(Number(event.target.value) * 100) } : line) })}
-              />
+            <div key={index}>
+              {index === 0 ? (
+                <div className="grid grid-cols-[64px_110px] gap-2">
+                  <input
+                    className="dashboard-input text-center"
+                    type="number"
+                    min="1"
+                    value={item.quantity}
+                    onChange={(event) => update({ lineItems: draft.lineItems.map((line, itemIndex) => itemIndex === index ? { ...line, quantity: Number(event.target.value) } : line) })}
+                  />
+                  <input
+                    className="dashboard-input text-right"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={(item.unitAmount / 100).toFixed(2)}
+                    onChange={(event) => update({ lineItems: draft.lineItems.map((line, itemIndex) => itemIndex === index ? { ...line, unitAmount: Math.round(Number(event.target.value) * 100) } : line) })}
+                  />
+                </div>
+              ) : (
+                <div className="grid grid-cols-[1fr_64px_110px] gap-2">
+                  <input
+                    className="dashboard-input"
+                    value={item.description}
+                    onChange={(event) => update({ lineItems: draft.lineItems.map((line, itemIndex) => itemIndex === index ? { ...line, description: event.target.value } : line) })}
+                  />
+                  <input
+                    className="dashboard-input text-center"
+                    type="number"
+                    min="1"
+                    value={item.quantity}
+                    onChange={(event) => update({ lineItems: draft.lineItems.map((line, itemIndex) => itemIndex === index ? { ...line, quantity: Number(event.target.value) } : line) })}
+                  />
+                  <input
+                    className="dashboard-input text-right"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={(item.unitAmount / 100).toFixed(2)}
+                    onChange={(event) => update({ lineItems: draft.lineItems.map((line, itemIndex) => itemIndex === index ? { ...line, unitAmount: Math.round(Number(event.target.value) * 100) } : line) })}
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -629,8 +699,8 @@ function InvoiceReview({
 
       <button
         type="button"
-        onClick={onCreate}
-        disabled={isCreating || total <= 0 || !draft.customerName.trim() || !draft.customerAddress.trim() || (isSubscription && !draft.billingInterval)}
+        onClick={handleCreate}
+        disabled={isCreating || !canCreate}
         className="mt-5 w-full cursor-pointer rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-zinc-950 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {isCreating
@@ -643,10 +713,21 @@ function InvoiceReview({
   );
 }
 
-function ReviewField({ label, children }: { label: string; children: React.ReactNode }) {
+function ReviewField({
+  label,
+  required,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <label className="mb-3 block">
-      <span className="mb-2 block text-[10px] uppercase tracking-wider text-zinc-600">{label}</span>
+      <span className="mb-2 block text-[10px] uppercase tracking-wider text-zinc-600">
+        {label}
+        {required && <span className="text-red-300"> *</span>}
+      </span>
       {children}
     </label>
   );

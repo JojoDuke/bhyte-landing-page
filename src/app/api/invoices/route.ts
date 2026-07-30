@@ -4,6 +4,7 @@ import { requireAdmin } from "@/lib/auth/server";
 import { appendMessage, linkConversationToInvoice } from "@/lib/conversations/service";
 import { createInvoice, listInvoices } from "@/lib/invoices/service";
 import { invoiceDraftSchema } from "@/lib/invoices/validation";
+import { getAppOrigin } from "@/lib/app-url";
 
 const createInvoiceSchema = invoiceDraftSchema.extend({
   conversationId: z.string().uuid().optional(),
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
     const user = await requireAdmin();
     const body = createInvoiceSchema.parse(await request.json());
     const { conversationId, ...draft } = body;
-    const invoice = await createInvoice(draft, user.id);
+    const invoice = await createInvoice(draft, user.id, { appOrigin: getAppOrigin(request) });
 
     if (conversationId) {
       const linked = await linkConversationToInvoice(conversationId, user.id, invoice.id);

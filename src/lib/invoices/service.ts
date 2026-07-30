@@ -3,6 +3,7 @@ import { and, desc, eq, inArray, isNull, like } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
 import { sendPaidInvoiceEmail } from "@/lib/email/send-paid-invoice-email";
+import { getAppOrigin } from "@/lib/app-url";
 import { renderInvoicePdf } from "@/lib/invoices/pdf";
 import { invoiceDocuments, invoiceLineItems, invoices, stripeEvents } from "./schema";
 import { calculateTotals, InvoiceDraft } from "./validation";
@@ -62,11 +63,16 @@ export async function getInvoice(id: string) {
   });
 }
 
-export async function createInvoice(draft: InvoiceDraft, userId: string) {
+export async function createInvoice(
+  draft: InvoiceDraft,
+  userId: string,
+  options?: { appOrigin?: string },
+) {
   const db = getDb();
   const { subtotal, total } = calculateTotals(draft);
   const number = await nextInvoiceNumber();
   const isSubscription = draft.invoiceType === "subscription";
+  const appOrigin = options?.appOrigin ?? getAppOrigin();
 
   const [invoice] = await db
     .insert(invoices)
@@ -127,7 +133,7 @@ export async function createInvoice(draft: InvoiceDraft, userId: string) {
       after_completion: {
         type: "redirect",
         redirect: {
-          url: `${process.env.NEXT_PUBLIC_APP_URL}/documents/thank-you`,
+          url: `${appOrigin}/documents/thank-you`,
         },
       },
     },

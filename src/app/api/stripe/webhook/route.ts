@@ -49,6 +49,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ received: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Webhook verification failed.";
+    console.error("Stripe webhook failed:", message);
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }
