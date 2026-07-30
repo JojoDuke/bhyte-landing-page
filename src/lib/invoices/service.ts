@@ -24,6 +24,15 @@ function token() {
   return randomBytes(32).toString("base64url");
 }
 
+function buildStripeProductDescription(lineItems: InvoiceDraft["lineItems"]) {
+  const description = lineItems
+    .map((item) => item.description.trim())
+    .filter(Boolean)
+    .join("\n\n");
+
+  return description || undefined;
+}
+
 async function createSettledDocument(invoiceId: string) {
   const db = getDb();
   const paidDocument = await db.query.invoiceDocuments.findFirst({
@@ -120,12 +129,11 @@ export async function createInvoice(
             : {}),
           product_data: {
             name: paymentDescription,
-            description: isSubscription
-              ? `Bhyte Software subscription ${number}`
-              : `Bhyte Software invoice ${number}`,
+            description: buildStripeProductDescription(draft.lineItems),
           },
         },
       }],
+      automatic_tax: { enabled: true },
       metadata: {
         invoiceId: invoice.id,
         invoiceNumber: invoice.number,
