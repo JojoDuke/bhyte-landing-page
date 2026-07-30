@@ -66,13 +66,14 @@ export async function getInvoice(id: string) {
 export async function createInvoice(
   draft: InvoiceDraft,
   userId: string,
-  options?: { appOrigin?: string },
+  options?: { appOrigin?: string; paymentDescription?: string },
 ) {
   const db = getDb();
   const { subtotal, total } = calculateTotals(draft);
   const number = await nextInvoiceNumber();
   const isSubscription = draft.invoiceType === "subscription";
   const appOrigin = options?.appOrigin ?? getAppOrigin();
+  const paymentDescription = options?.paymentDescription?.trim() ?? draft.lineItems[0]?.description ?? "";
 
   const [invoice] = await db
     .insert(invoices)
@@ -118,7 +119,7 @@ export async function createInvoice(
             ? { recurring: { interval: draft.billingInterval } }
             : {}),
           product_data: {
-            name: draft.lineItems[0].description,
+            name: paymentDescription,
             description: isSubscription
               ? `Bhyte Software subscription ${number}`
               : `Bhyte Software invoice ${number}`,

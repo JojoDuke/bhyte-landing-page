@@ -8,6 +8,7 @@ import { getAppOrigin } from "@/lib/app-url";
 
 const createInvoiceSchema = invoiceDraftSchema.extend({
   conversationId: z.string().uuid().optional(),
+  paymentDescription: z.string().trim().min(1).max(500),
 });
 
 export async function GET() {
@@ -23,8 +24,11 @@ export async function POST(request: Request) {
   try {
     const user = await requireAdmin();
     const body = createInvoiceSchema.parse(await request.json());
-    const { conversationId, ...draft } = body;
-    const invoice = await createInvoice(draft, user.id, { appOrigin: getAppOrigin(request) });
+    const { conversationId, paymentDescription, ...draft } = body;
+    const invoice = await createInvoice(draft, user.id, {
+      appOrigin: getAppOrigin(request),
+      paymentDescription,
+    });
 
     if (conversationId) {
       const linked = await linkConversationToInvoice(conversationId, user.id, invoice.id);
