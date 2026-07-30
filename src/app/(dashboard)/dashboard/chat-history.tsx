@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { ConfirmDialog } from "./confirm-dialog";
 
 type ConversationSummary = {
   id: string;
@@ -25,6 +26,8 @@ export function ChatHistory({ collapsed }: { collapsed: boolean }) {
   const [menuId, setMenuId] = useState<string | null>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState<ConversationSummary | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const onInvoicesPage = pathname === "/dashboard/invoices";
 
@@ -90,17 +93,23 @@ export function ChatHistory({ collapsed }: { collapsed: boolean }) {
     }
   }
 
-  async function deleteChat(id: string) {
-    if (!window.confirm("Delete this chat? This cannot be undone.")) return;
+  async function confirmDeleteChat() {
+    if (!deleteTarget || isDeleting) return;
 
-    const response = await fetch(`/api/conversations/${id}`, { method: "DELETE" });
-    if (!response.ok) return;
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`/api/conversations/${deleteTarget.id}`, { method: "DELETE" });
+      if (!response.ok) return;
 
-    if (activeId === id) {
-      router.push("/dashboard/invoices");
-      window.dispatchEvent(new Event("conversations:new"));
+      if (activeId === deleteTarget.id) {
+        router.push("/dashboard/invoices");
+        window.dispatchEvent(new Event("conversations:new"));
+      }
+      window.dispatchEvent(new Event("conversations:changed"));
+      setDeleteTarget(null);
+    } finally {
+      setIsDeleting(false);
     }
-    window.dispatchEvent(new Event("conversations:changed"));
   }
 
   if (collapsed) {
@@ -225,7 +234,7 @@ export function ChatHistory({ collapsed }: { collapsed: boolean }) {
                         className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-xs text-red-300 hover:bg-red-500/10"
                         onClick={() => {
                           setMenuId(null);
-                          void deleteChat(item.id);
+                          setDeleteTarget(item);
                         }}
                       >
                         Delete
@@ -238,6 +247,22 @@ export function ChatHistory({ collapsed }: { collapsed: boolean }) {
           </ul>
         )}
       </div>
+
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete chat?"
+        description={
+          deleteTarget
+            ? `"${deleteTarget.title}" will be permanently deleted. This cannot be undone.`
+            : ""
+        }
+        confirmLabel="Delete chat"
+        confirming={isDeleting}
+        onConfirm={() => void confirmDeleteChat()}
+        onCancel={() => {
+          if (!isDeleting) setDeleteTarget(null);
+        }}
+      />
     </div>
   );
 }
