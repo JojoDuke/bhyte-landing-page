@@ -23,7 +23,13 @@ export async function POST(request: Request) {
       event.type === "checkout.session.completed"
       || event.type === "checkout.session.async_payment_succeeded"
     ) {
-      await markInvoicePaid(event.data.object.id, event.id, event.type, event.data.object);
+      const checkoutSessionId = event.data.object.id;
+      console.info("Stripe webhook: marking invoice paid", {
+        eventId: event.id,
+        eventType: event.type,
+        checkoutSessionId,
+      });
+      await markInvoicePaid(checkoutSessionId, event.id, event.type, event.data.object);
     }
 
     if (

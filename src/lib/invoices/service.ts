@@ -256,21 +256,46 @@ export async function sendPaidInvoiceEmailForInvoice(invoiceId: string) {
   }
 }
 
+async function resolveInvoiceIdFromCheckoutSession(session: {
+  metadata?: Record<string, string> | null;
+  payment_link?: string | { id: string } | null;
+}) {
+  if (session.metadata?.invoiceId) {
+    return session.metadata.invoiceId;
+  }
+
+  const paymentLinkId = typeof session.payment_link === "string"
+    ? session.payment_link
+    : session.payment_link?.id ?? null;
+
+  if (!paymentLinkId) return null;
+
+  const invoice = await getDb().query.invoices.findFirst({
+    where: eq(invoices.stripePaymentLinkId, paymentLinkId),
+    columns: { id: true },
+  });
+
+  return invoice?.id ?? null;
+}
+
 export async function markInvoicePaid(checkoutSessionId: string, eventId: string, eventType: string, payload: unknown) {
   const db = getDb();
   const stripe = getStripe();
   const session = await stripe.checkout.sessions.retrieve(checkoutSessionId);
-  const invoiceId = session.metadata?.invoiceId;
 
-  const seen = await db.query.stripeEvents.findFirst({ where: eq(stripeEvents.id, eventId) });
-  if (seen) {
-    if (invoiceId && session.payment_status === "paid") {
-      await sendPaidInvoiceEmailForInvoice(invoiceId);
-    }
+  if (session.payment_status !== "paid") return;
+
+  const invoiceId = await resolveInvoiceIdFromCheckoutSession(session);
+  if (!invoiceId) {
+    console.error("Stripe webhook: could not resolve invoice for checkout session", checkoutSessionId);
     return;
   }
 
-  if (!invoiceId || session.payment_status !== "paid") return;
+  const seen = await db.query.stripeEvents.findFirst({ where: eq(stripeEvents.id, eventId) });
+  if (seen) {
+    await sendPaidInvoiceEmailForInvoice(invoiceId);
+    return;
+  }
 
   await db.insert(stripeEvents).values({ id: eventId, type: eventType, payload });
 
@@ -294,7 +319,14 @@ export async function markInvoicePaid(checkoutSessionId: string, eventId: string
     .where(and(eq(invoices.id, invoiceId), eq(invoices.status, "open")));
 
   await createSettledDocument(invoiceId);
-  await sendPaidInvoiceEmailForInvoice(invoiceId);
+
+  const emailResult = await sendPaidInvoiceEmailForInvoice(invoiceId);
+  if (!emailResult.ok && !("skipped" in emailResult && emailResult.skipped)) {
+    console.error("Stripe webhook: paid invoice email failed", {
+      invoiceId,
+      error: "error" in emailResult ? emailResult.error : "Unknown error",
+    });
+  }
 }
 
 export async function sendDuePaidInvoiceEmails() {
