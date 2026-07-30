@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import { LoginForm } from "./login-form";
 
@@ -43,7 +44,9 @@ export default function LoginPage() {
               Sign in to manage invoices, payment links, and client activity.
             </p>
 
-            <LoginForm />
+            <Suspense fallback={null}>
+              <LoginForm />
+            </Suspense>
           </div>
         </div>
 
