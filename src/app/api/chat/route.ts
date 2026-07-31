@@ -33,7 +33,7 @@ const createInvoiceTool = {
     properties: {
       customerName: { type: "string" },
       customerEmail: { type: "string", description: "Optional. Use an empty string when not supplied." },
-      customerAddress: { type: "string" },
+      customerAddress: { type: "string", description: "Optional. Use an empty string when not supplied; Stripe checkout can collect it when the customer pays." },
       currency: { type: "string", description: "Three-letter ISO currency code. Defaults to usd." },
       lineItems: {
         type: "array",
@@ -64,7 +64,7 @@ const createInvoiceTool = {
         description: "Required for subscription invoices (month or year). Use an empty string for one_time invoices.",
       },
     },
-    required: ["customerName", "customerAddress", "currency", "lineItems", "issueDate", "dueDate", "taxAmount", "discountAmount", "invoiceType", "billingInterval"],
+    required: ["customerName", "currency", "lineItems", "issueDate", "dueDate", "taxAmount", "discountAmount", "invoiceType", "billingInterval"],
     additionalProperties: false,
   },
 };
@@ -110,7 +110,7 @@ When the user greets you, sends a vague opening message, or asks what you do:
 - Give them this concise checklist of what to provide:
   1. Invoice type: one-time payment or recurring subscription
   2. Client legal name
-  3. Client billing address
+  3. Client billing address (optional — leave blank to collect from the customer at Stripe checkout)
   4. Deliverables or services, ideally as line items
   5. Quantity and price/rate for each item, or an agreed total
   6. Invoice issue date
@@ -131,7 +131,8 @@ Invoice rules:
 - Do not request, mention, or include banking, routing, account, wire, ACH, or SWIFT details.
 - Payment is handled through a Pay Invoice or Subscribe button linked to the invoice's Stripe payment link.
 - USD is the default currency. Tax is always none unless the user explicitly requests otherwise.
-- Client address is required. Client email is optional and should only be requested when the user wants it on this invoice.
+- Client address is optional when creating an invoice. If omitted, Stripe checkout collects the billing address during payment and it is added to the paid invoice PDF and receipt email.
+- Client email is optional and should only be requested when the user wants it on this invoice.
 - Never invent client details, dates, deliverables, amounts, taxes, discounts, or payment terms.
 - Track information already supplied across the conversation and ask only for what is still missing.
 - Keep questions natural and manageable; group closely related missing details instead of repeating the entire checklist.

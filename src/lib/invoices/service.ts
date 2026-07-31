@@ -4,6 +4,7 @@ import { getDb } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
 import { sendPaidInvoiceEmail } from "@/lib/email/send-paid-invoice-email";
 import { getAppOrigin } from "@/lib/app-url";
+import { formatStripeBillingAddress } from "@/lib/invoices/stripe-address";
 import { renderInvoicePdf } from "@/lib/invoices/pdf";
 import { invoiceDocuments, invoiceLineItems, invoices, stripeEvents } from "./schema";
 import { calculateTotals, InvoiceDraft } from "./validation";
@@ -83,6 +84,7 @@ export async function createInvoice(
   const isSubscription = draft.invoiceType === "subscription";
   const appOrigin = options?.appOrigin ?? getAppOrigin();
   const paymentDescription = options?.paymentDescription?.trim() ?? draft.lineItems[0]?.description ?? "";
+  const hasCustomerAddress = Boolean(draft.customerAddress?.trim());
 
   const [invoice] = await db
     .insert(invoices)
@@ -134,6 +136,7 @@ export async function createInvoice(
         },
       }],
       automatic_tax: { enabled: true },
+      billing_address_collection: hasCustomerAddress ? "auto" : "required",
       metadata: {
         invoiceId: invoice.id,
         invoiceNumber: invoice.number,
@@ -306,6 +309,11 @@ export async function markInvoicePaid(checkoutSessionId: string, eventId: string
     return;
   }
 
+  const existingInvoice = await db.query.invoices.findFirst({
+    where: eq(invoices.id, invoiceId),
+    columns: { customerAddress: true },
+  });
+
   const seen = await db.query.stripeEvents.findFirst({ where: eq(stripeEvents.id, eventId) });
   if (seen) {
     await sendPaidInvoiceEmailForInvoice(invoiceId);
@@ -320,6 +328,8 @@ export async function markInvoicePaid(checkoutSessionId: string, eventId: string
     : session.subscription?.id ?? null;
 
   const checkoutEmail = session.customer_details?.email ?? session.customer_email ?? null;
+  const checkoutAddress = formatStripeBillingAddress(session.customer_details?.address);
+  const shouldFillAddress = Boolean(checkoutAddress) && !existingInvoice?.customerAddress?.trim();
 
   await db
     .update(invoices)
@@ -329,6 +339,7 @@ export async function markInvoicePaid(checkoutSessionId: string, eventId: string
       stripeCheckoutSessionId: session.id,
       ...(subscriptionId ? { stripeSubscriptionId: subscriptionId } : {}),
       ...(checkoutEmail ? { customerEmail: checkoutEmail } : {}),
+      ...(shouldFillAddress ? { customerAddress: checkoutAddress } : {}),
       updatedAt: new Date(),
     })
     .where(and(eq(invoices.id, invoiceId), eq(invoices.status, "open")));

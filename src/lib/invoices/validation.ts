@@ -67,7 +67,7 @@ export const lineItemSchema = z.object({
 export const invoiceDraftSchema = z.object({
   customerName: z.string().min(1).max(200),
   customerEmail: z.preprocess(optionalText, z.string().email().or(z.literal(""))),
-  customerAddress: z.string().trim().min(1).max(1_000),
+  customerAddress: z.preprocess(optionalText, z.string().max(1_000).or(z.literal(""))),
   currency: z.preprocess(
     (value) => value == null || value === "" ? "usd" : normalizeCurrency(value),
     z.string().length(3),

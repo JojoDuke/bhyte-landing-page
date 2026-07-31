@@ -521,7 +521,6 @@ function InvoiceReview({
 
   const canCreate = total > 0
     && draft.customerName.trim().length > 0
-    && draft.customerAddress.trim().length > 0
     && paymentDescription.trim().length > 0
     && (!isSubscription || Boolean(draft.billingInterval));
 
@@ -595,8 +594,13 @@ function InvoiceReview({
         </ReviewField>
       </div>
 
-      <ReviewField label="Client billing address">
-        <textarea className="dashboard-input min-h-20 resize-none" value={draft.customerAddress} onChange={(event) => update({ customerAddress: event.target.value })} />
+      <ReviewField label="Client billing address (optional)">
+        <textarea
+          className="dashboard-input min-h-20 resize-none"
+          value={draft.customerAddress}
+          placeholder="Leave blank to collect from the customer at Stripe checkout"
+          onChange={(event) => update({ customerAddress: event.target.value })}
+        />
       </ReviewField>
 
       <div className="grid gap-3 sm:grid-cols-2">

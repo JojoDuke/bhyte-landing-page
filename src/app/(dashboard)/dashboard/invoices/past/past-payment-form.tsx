@@ -119,8 +119,13 @@ export function PastPaymentForm() {
           </Field>
         </div>
 
-        <Field label="Client billing address">
-          <textarea className="dashboard-input min-h-20 resize-none" value={form.customerAddress} onChange={(event) => update({ customerAddress: event.target.value })} />
+        <Field label="Client billing address (optional)">
+          <textarea
+            className="dashboard-input min-h-20 resize-none"
+            value={form.customerAddress}
+            placeholder="Leave blank if unknown"
+            onChange={(event) => update({ customerAddress: event.target.value })}
+          />
         </Field>
 
         <div className="grid gap-3 sm:grid-cols-2">
@@ -192,7 +197,7 @@ export function PastPaymentForm() {
         <button
           type="button"
           onClick={() => void submit()}
-          disabled={isCreating || total <= 0 || !form.customerName.trim() || !form.customerAddress.trim() || !form.lineItems[0]?.description.trim()}
+          disabled={isCreating || total <= 0 || !form.customerName.trim() || !form.lineItems[0]?.description.trim()}
           className="mt-5 w-full cursor-pointer rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-zinc-950 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {isCreating ? "Generating…" : "Generate clean invoice"}
