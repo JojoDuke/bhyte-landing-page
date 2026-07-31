@@ -51,7 +51,7 @@ export default function Navbar() {
     pathname?.startsWith("/dashboard")
     || pathname === "/login"
     || pathname?.startsWith("/preview")
-    || pathname === "/documents/thank-you"
+    || pathname?.startsWith("/documents/")
   ) {
     return null;
   }

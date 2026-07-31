@@ -54,7 +54,7 @@ export function ClaudeChat() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [pendingDraft, setPendingDraft] = useState<InvoiceDraft | null>(null);
-  const [createdInvoice, setCreatedInvoice] = useState<{ documentUrl: string; paymentUrl: string } | null>(null);
+  const [createdInvoice, setCreatedInvoice] = useState<{ shareUrl: string; pdfUrl: string; paymentUrl: string } | null>(null);
   const [invoiceUsage, setInvoiceUsage] = useState<UsageStats | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -141,7 +141,8 @@ export function ClaudeChat() {
         if (body.conversation.linkedInvoice?.documentToken) {
           const origin = window.location.origin;
           setCreatedInvoice({
-            documentUrl: `${origin}/documents/${body.conversation.linkedInvoice.documentToken}`,
+            shareUrl: `${origin}/documents/${body.conversation.linkedInvoice.documentToken}`,
+            pdfUrl: `${origin}/documents/${body.conversation.linkedInvoice.documentToken}/pdf`,
             paymentUrl: body.conversation.linkedInvoice.stripePaymentLinkUrl ?? "",
           });
           setInvoiceUsage(body.conversation.invoiceUsage ?? null);
@@ -348,7 +349,8 @@ export function ClaudeChat() {
 
       const origin = window.location.origin;
       setCreatedInvoice({
-        documentUrl: `${origin}/documents/${body.invoice.documentToken}`,
+        shareUrl: `${origin}/documents/${body.invoice.documentToken}`,
+        pdfUrl: `${origin}/documents/${body.invoice.documentToken}/pdf`,
         paymentUrl: body.invoice.stripePaymentLinkUrl,
       });
       setInvoiceUsage(body.usage ?? null);
@@ -703,13 +705,13 @@ function ReviewField({
   );
 }
 
-function CreatedInvoiceActions({ invoice }: { invoice: { documentUrl: string; paymentUrl: string } }) {
+function CreatedInvoiceActions({ invoice }: { invoice: { shareUrl: string; pdfUrl: string; paymentUrl: string } }) {
   return (
     <div className="grid gap-3 rounded-[18px] border border-emerald-300/10 bg-emerald-300/[0.035] p-4 sm:grid-cols-3">
-      <a className="rounded-xl bg-white px-4 py-3 text-center text-xs font-semibold text-zinc-950 transition hover:bg-blue-50" href={invoice.documentUrl} target="_blank" rel="noreferrer">
+      <a className="rounded-xl bg-white px-4 py-3 text-center text-xs font-semibold text-zinc-950 transition hover:bg-blue-50" href={invoice.pdfUrl} target="_blank" rel="noreferrer">
         Open PDF
       </a>
-      <button type="button" className="cursor-pointer rounded-xl border border-white/[0.09] px-4 py-3 text-xs text-zinc-300 transition hover:bg-white/[0.05]" onClick={() => navigator.clipboard.writeText(invoice.documentUrl)}>
+      <button type="button" className="cursor-pointer rounded-xl border border-white/[0.09] px-4 py-3 text-xs text-zinc-300 transition hover:bg-white/[0.05]" onClick={() => navigator.clipboard.writeText(invoice.shareUrl)}>
         Copy share link
       </button>
       <a className="rounded-xl border border-blue-300/15 bg-blue-300/[0.05] px-4 py-3 text-center text-xs text-blue-200 transition hover:bg-blue-300/[0.1]" href={invoice.paymentUrl} target="_blank" rel="noreferrer">

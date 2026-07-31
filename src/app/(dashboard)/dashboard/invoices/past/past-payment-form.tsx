@@ -42,7 +42,8 @@ export function PastPaymentForm() {
   const [form, setForm] = useState(defaultForm);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [documentUrl, setDocumentUrl] = useState<string | null>(null);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [invoiceNumber, setInvoiceNumber] = useState<string | null>(null);
 
   const subtotal = form.lineItems.reduce((sum, item) => sum + item.quantity * item.unitAmount, 0);
@@ -70,7 +71,8 @@ export function PastPaymentForm() {
       if (!response.ok) throw new Error(body.error ?? "Unable to create invoice.");
 
       const origin = window.location.origin;
-      setDocumentUrl(`${origin}/documents/${body.invoice.documentToken}`);
+      setShareUrl(`${origin}/documents/${body.invoice.documentToken}`);
+      setPdfUrl(`${origin}/documents/${body.invoice.documentToken}/pdf`);
       setInvoiceNumber(body.invoice.number);
       setForm(defaultForm());
     } catch (caught) {
@@ -91,19 +93,19 @@ export function PastPaymentForm() {
         </p>
       </div>
 
-      {documentUrl && invoiceNumber && (
+      {shareUrl && pdfUrl && invoiceNumber && (
         <div className="mt-6 rounded-2xl border border-emerald-300/10 bg-emerald-300/[0.035] p-5">
           <p className="text-sm text-emerald-200">Invoice {invoiceNumber} is ready.</p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <a className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black" href={documentUrl} target="_blank" rel="noreferrer">
+            <a className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black" href={pdfUrl} target="_blank" rel="noreferrer">
               Open PDF
             </a>
             <button
               type="button"
               className="cursor-pointer rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
-              onClick={() => navigator.clipboard.writeText(documentUrl)}
+              onClick={() => navigator.clipboard.writeText(shareUrl)}
             >
-              Copy link
+              Copy share link
             </button>
           </div>
         </div>

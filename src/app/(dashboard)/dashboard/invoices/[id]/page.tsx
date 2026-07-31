@@ -15,7 +15,8 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
 
   const settled = invoice.status === "paid" || invoice.status === "active";
   const document = invoice.invoiceDocuments.find((item) => item.kind === (settled ? "paid" : "open")) ?? invoice.invoiceDocuments[0];
-  const documentUrl = document ? `/documents/${document.token}` : null;
+  const documentUrl = document ? `/documents/${document.token}/pdf` : null;
+  const shareUrl = document ? `/documents/${document.token}` : null;
   const isSubscription = invoice.invoiceType === "subscription";
   const statusClass = settled
     ? "bg-emerald-950 text-emerald-400"
@@ -59,6 +60,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
         </div>
         <div className="mt-6 flex flex-wrap gap-3">
           {documentUrl && <a className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black" href={documentUrl} target="_blank" rel="noreferrer">Open PDF</a>}
+          {shareUrl && <a className="rounded-lg border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200" href={shareUrl} target="_blank" rel="noreferrer">Share page</a>}
           {invoice.stripePaymentLinkUrl && !settled && invoice.status !== "cancelled" && (
             <a className="rounded-lg border border-blue-500 px-4 py-2 text-sm font-semibold text-blue-300" href={invoice.stripePaymentLinkUrl} target="_blank" rel="noreferrer">
               {isSubscription ? "Open subscription link" : "Open payment link"}
