@@ -5,6 +5,7 @@ import {
   emptyUsage,
   mergeUsage,
 } from "@/lib/anthropic/usage";
+import { getConfiguredModel } from "@/lib/anthropic";
 import { conversations, invoiceMessages, invoices } from "@/lib/invoices/schema";
 import type { InvoiceDraft } from "@/lib/invoices/validation";
 
@@ -77,8 +78,8 @@ export async function getConversation(id: string, userId: string) {
   return {
     ...conversation,
     pendingDraft: conversation.pendingDraft as InvoiceDraft | null,
-    usageStats: parseUsage(conversation.usageStats, process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5"),
-    invoiceUsage: parseUsage(conversation.invoiceUsage, process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5"),
+    usageStats: parseUsage(conversation.usageStats, getConfiguredModel()),
+    invoiceUsage: parseUsage(conversation.invoiceUsage, getConfiguredModel()),
     linkedInvoice: conversation.invoice
       ? {
           id: conversation.invoice.id,
@@ -216,7 +217,7 @@ export async function linkConversationToInvoice(
   });
   if (!conversation) throw new Error("Conversation not found.");
 
-  const model = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5";
+  const model = getConfiguredModel();
   const invoiceUsage = parseUsage(conversation.usageStats, model) ?? emptyUsage(model);
 
   const [updated] = await getDb()

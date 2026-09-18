@@ -2,7 +2,7 @@
 
 1. Create or select the Neon project/branch, enable **Managed Better Auth**, and allow email/password sign-in. Do not enable public sign-up.
 2. In Neon, create the initial administrator account and set `NEON_AUTH_BASE_URL`, `DASHBOARD_ADMIN_EMAIL` (that exact account email), plus a random 32+ character `NEON_AUTH_COOKIE_SECRET` in the application environment.
-3. Set `DATABASE_URL`, `ANTHROPIC_API_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `NEXT_PUBLIC_APP_URL` using the names in `.env.example`.
+3. Set `DATABASE_URL`, `OPENROUTER_API_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `NEXT_PUBLIC_APP_URL` using the names in `.env.example`.
 4. Apply the invoice schema with `npx drizzle-kit push` (or run `drizzle/0000_invoice_dashboard.sql` against the Neon branch).
 5. Configure a Stripe webhook at `https://your-domain.com/api/stripe/webhook`. Subscribe to `checkout.session.completed` and `checkout.session.async_payment_succeeded`; use the webhook signing secret for `STRIPE_WEBHOOK_SECRET`.
 6. Set Namecheap Private Email SMTP values in your environment: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `PRIVATE_EMAIL_PASSWORD`, and `INVOICE_EMAIL_FROM`.

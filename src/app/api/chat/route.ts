@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth/server";
-import { getAnthropic } from "@/lib/anthropic";
+import { getAnthropic, resolveModelId } from "@/lib/anthropic";
 import {
   appendMessage,
   createConversation,
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
 
     await appendMessage(conversationId, user.id, "user", latestUserMessage.content);
 
-    const model = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5";
+    const model = resolveModelId();
 
     const response = await getAnthropic().messages.create({
       model,
