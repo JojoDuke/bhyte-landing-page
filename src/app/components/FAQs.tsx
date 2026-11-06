@@ -7,8 +7,8 @@ const faqData = [
     answer: "Project timelines vary based on complexity and scope. A standard web application typically takes 3 to 4 weeks, while advanced AI-powered platforms can take 4 to 8 weeks. We provide detailed project timelines during our initial consultation."
   },
   {
-    question: "What's included in the $1,995/month plan?",
-    answer: "Our monthly plan includes 40+ hours of development time, custom web applications, AI/ML integration(Including LLMs, RAG, and AI workflows/automations), API development, SEO implementation, and priority support with monthly strategy sessions."
+    question: "What's included in the $750/month plan?",
+    answer: "The monthly plan includes design and development for web and mobile apps, AI integrations, and unlimited brands. We work through one request at a time and share updates every 48 hours. The subscription is billed in USD, and you can pause or cancel anytime."
   },
   {
     question: "Do you offer support and maintenance?",
